@@ -48,7 +48,7 @@ def RISDB(request):
         PartnerCountry = request.GET.getlist('PartnerCountry')
         # print(PartnerCountry)
         if PartnerCountry:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Code_of_Sub_Region__in=PartnerCountry)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Country_Code__in=PartnerCountry)
 
     if 'Modalities' in request.GET:
         Modalities = request.GET.getlist('Modalities')
@@ -76,12 +76,16 @@ def RISDB(request):
 
     if 'YearTo' in request.GET:
         YearTo = request.GET['YearTo']
-        if YearTo:
+        if YearTo > YearFrom:
+            RIS_Project_Objects = RIS_Project_Objects.filter(Year__lte=YearTo)
+        if YearTo < YearFrom:
+            YearTo = int(YearFrom) + 1
             RIS_Project_Objects = RIS_Project_Objects.filter(Year__lte=YearTo)
 
-        #####################################################################################
-    #                                  For Left Sidebar Graphs -                         #
-    #######################################################################################
+
+    #####################################################################################
+    #                                  For Left Sidebar Graphs -                        #
+    #####################################################################################
     # 1 Display Region-Wise Number Of Projects
     Region_Wise_Number_Of_Projects = RIS_Project_Objects.values('Partner_Region').order_by('Partner_Region').annotate(total=Count('id'))
 

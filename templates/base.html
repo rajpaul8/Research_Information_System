@@ -40,7 +40,7 @@
 
 
 
-<!-- CUSTOM SCRIPT -->
+<!-- CUSTOM SCRIPT FOR Multi-Select Dependent List -->
 
 <script>
     //Linking PARTNER REGION TO SUBREGION
@@ -78,7 +78,12 @@
 
 </script>
 <script>
+document.addEventListener('load', function() {
+    var scale = 1 / (window.devicePixelRatio || 1);
+    var content = 'width=device-width, initial-scale=' + scale;
 
+    document.querySelector('meta[name="viewport"]').setAttribute('content', content)
+}, false)
 </script>
 
 </body>
