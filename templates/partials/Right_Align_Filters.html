@@ -14,7 +14,7 @@
 <!--Filters Section Starts Here-->
 <div class="container right_filter_box p-3">
     <h6 class="text-center"> Apply Filter </h6>
-    <form method="GET" id="filterForm">
+    <form method="GET" id="filterForm" action="{% url 'RISDB' %}">
         <div class="row">
                 <select class="form-control selectpicker p-2"  data-actions-box='true' multiple data-live-search="true" name="PartnerRegion" id="PartnerRegion" title="Partner Region"  data_load_dependent_sub_region_url="{% url 'Load_Dependent_Sub_Region_Filters' %}">
                         {% for i in Partner_Region_Choices %}
