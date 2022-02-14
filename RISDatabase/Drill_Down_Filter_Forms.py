@@ -1,0 +1,32 @@
+PartnerRegionsChoices = {
+    'Americas': 'Americas',
+    'Africa': 'Africa',
+    'Asia': 'Asia',
+    'Europe': 'Europe',
+    'Oceania': 'Oceania'
+}
+# SubRegionChoices = {
+#     'South America':'South America',
+#     'Eastern Europe':'Eastern Europe',
+#     'Southern Asia':'Southern Asia',
+#     'South Eastern Asia':'South Eastern Asia',
+#     'Northern Africa':'Northern Africa',
+#     'Melanesia':'Melanesia',
+#     'Eastern Asia':'Eastern Asia',
+#     'Western Asia':'Western Asia',
+#     'Eastern Africa':'Eastern Africa',
+#     'Southern Europe':'Southern Europe',
+#     'Western Africa':'Western Africa',
+#     'Central America':'Central America',
+#     'Middle Africa':'Middle Africa',
+#     'Channel Islands':'Channel Islands',
+#     'Western Europe':'Western Europe',
+#     'Australia and New Zealand':'Australia and New Zealand',
+#     'Southern Africa':'Southern Africa',
+#     'Caribbean':'Caribbean',
+#     'Northern America':'Northern America',
+#     'Polynesia':'Polynesia',
+#     'Caribbean ':'Caribbean ',
+#     'Central Asia':'Central Asia',
+#     'Micronesia':'Micronesia',
+# }
