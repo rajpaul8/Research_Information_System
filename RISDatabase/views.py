@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from .models import *
 from django_pivot.pivot import pivot
-import pandas as pd
+from django_pivot.histogram import histogram
 from datetime import date
 
 from django.db.models import Sum, Count
 
 def RISDB(request):
+    # This RIS_Project_Objects Should Change With The Filters
     RIS_Project_Objects = RIS_Project.objects.all()
+
+    # This RIS_Project_Object_Static View Should Not Change With The Filter
+    RIS_Project_Objects_Static = RIS_Project.objects.all()
     #####################################################################################
     #                                  For Dependent Filters ---                        #
     #####################################################################################
@@ -87,13 +91,13 @@ def RISDB(request):
     #                                  For Left Sidebar Graphs -                        #
     #####################################################################################
     # 1 Display Region-Wise Number Of Projects
-    Region_Wise_Number_Of_Projects = RIS_Project_Objects.values('Partner_Region').order_by('Partner_Region').annotate(total=Count('id'))
+    Region_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(total=Count('id'))
 
     # 2 Display Modality-Wise Number Of Projects
-    Modality_Wise_Number_Of_Projects = RIS_Project_Objects.values('Modalities').order_by('Modalities').annotate(total=Count('id'))
+    Modality_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Modalities').order_by('Modalities').annotate(total=Count('id'))
 
     # 3 Display Sector-Wise Number Of Projects
-    Sector_Wise_Number_Of_Projects = RIS_Project_Objects.values('Sector').order_by('Sector').annotate(total=Count('id'))
+    Sector_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Sector').order_by('Sector').annotate(total=Count('id'))
 
 
     #####################################################################################
@@ -102,13 +106,13 @@ def RISDB(request):
 
     # 1 Project in Current Year
     currentYear = date.today().year
-    Projects_In_Current_Year_Count = len(RIS_Project_Objects.filter(Year=currentYear))
+    Projects_In_Current_Year_Count = len(RIS_Project_Objects_Static.filter(Year=currentYear))
 
     # 2 Total Projects Till Now
-    TotalProjectsTillNow = len(RIS_Project_Objects)
+    TotalProjectsTillNow = len(RIS_Project_Objects_Static)
 
     # 3 Country With Most Projects
-    Country_Wise_Number_Of_Projects = RIS_Project_Objects.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore')).order_by('-total')[0]
+    Country_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore')).order_by('-total')[0]
     Country_With_Most_Projects = Country_Wise_Number_Of_Projects['Partner_Country']
 
     # 4 Total Disbursement_of_development_assistance_Rs_Crore
@@ -118,11 +122,22 @@ def RISDB(request):
     #                                  For Middle Section Charts -                         #
     #######################################################################################
 
+    # Here I'm using RIS_Project_Objects That Gets Changed With The Filters
+
     # 1 Display Year Wise Number Of Projects
     Year_Wise_Number_Of_Projects = RIS_Project_Objects.values('Year').order_by('Year').annotate(total=Count('id'))
 
-    # 2 Display Year Wise Disbursement_of_development_assistance_Rs_Crore
-    Year_Wise_Disbursement = RIS_Project_Objects.values('Year').order_by('Year').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore'))
+    # 2 Display Year Wise Disbursement_of_development_assistance_USD_million
+    Year_Wise_Disbursement = RIS_Project_Objects.values('Year').order_by('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million'))
+
+
+    # 3 For Geography Mapping
+    # Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment
+
+    # Region_Wise_Number_Of_Projects_For_Mapping = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(NumberOfProjects=Count('id'))
+
+    Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(Disbursement=Sum('Disbursement_of_development_assistance_USD_million'),Commitment=Sum('Commitment_of_development_assistance_USD_million'))
+
 
 
     context = {
@@ -135,7 +150,8 @@ def RISDB(request):
         'SubModalities_Choices': SubModalities_Choices,
         'Sector_Choices': Sector_Choices,
         'Year_Choices': Year_Choices,
-        'Year_Wise_Number_Of_Projects': Year_Wise_Number_Of_Projects
+        'Year_Wise_Number_Of_Projects': Year_Wise_Number_Of_Projects,
+        'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping
     }
     return render(request, 'RIS_DB\RIS_DB_Home.html', context)
 
