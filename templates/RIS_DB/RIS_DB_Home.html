@@ -5,8 +5,12 @@
 
 <!--For Maps---- Leaflet.js CDN  -->
 <!--Leaflet CDN-->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="">
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin="">
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
 
 
 <!-- Country JS-->
@@ -22,8 +26,9 @@
     width: auto; height: 50vh;
     border-radius: 1em;
 }
-.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
-.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
+.info { padding: 6px 8px; font-size:1em; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 10px; height: 10px; float: left; margin-right: 8px; opacity: 0.7; }
+</style>
 
 <style>
 .left_section{
@@ -31,6 +36,7 @@
     width:100%;
     background: rgb(251 251 251);
 }
+
 </style>
 
 <!--Home Page Is Divided Into 2 Sections Vertically  1-Left Side Stats View 2-Main Hero Container-->
@@ -38,22 +44,16 @@
 <div class="container-fluid pt-3">
     <div class="row">
         <!--  Left Side Stats Cards View  -->
-        <div class="col-md-4 lg-6 left_section">
+        <div class="col-md-3 lg-6 left_section">
             {% include 'partials\Left_Align_Summary_Stats_View.html' %}
         </div>
 
         <!-- Main Hero Section -->
-        <div class="col-md-8 lg-6">
+        <div class="col-md-9 lg-6">
 
             <div class="row">
-
-                <div class="col-md-9">
-                    <div id="map"></div>
-                </div>
-
                 <!-- Top Filter Bar  -->
-                <div class="col-md-3">{% include 'partials\Top_Align_Filters.html' %}</div>
-
+                <div class="col-md-12">{% include 'partials\Top_Align_Filters.html' %}</div>
 
             </div>
             <!-- Time Series Charts and Graphs  -->
@@ -69,7 +69,7 @@
             <div class="row p-3">
                 <div class="col-md-12">
                     <!-- For Map  -->
-
+                        <div id="map"></div>
                 </div>
             </div>
         </div>
@@ -207,7 +207,7 @@
 
 		var div = L.DomUtil.create('div', 'info legend');
 		var grades = [0, 50, 100, 500, 1000, 2000];
-		var labels = ['Disbursement (in million $)'];
+		var labels = ['Disbursement <br> (in million $)'];
 		var from, to;
 
 		for (var i = 0; i < grades.length; i++) {
@@ -226,6 +226,7 @@
 	legend.addTo(map);
 
 	//Adding Marker in Center Of Map
+
 
 
 </script>

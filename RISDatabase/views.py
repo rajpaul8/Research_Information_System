@@ -104,11 +104,20 @@ def RISDB(request):
     #                                  For Right Sidebar Cards -                         #
     #######################################################################################
 
-    # 1 Project in Current Year
-    currentYear = date.today().year
-    Projects_In_Current_Year_Count = len(RIS_Project_Objects_Static.filter(Year=currentYear))
+    # 1 Total Country Benefited
 
-    # 2 Total Projects Till Now
+    Total_Country_Benefited_Count = len(RIS_Project_Objects_Static.values('Partner_Country').distinct())
+
+
+    # 2 Lines of Credit Total Disbursement
+    Total_Disbursement_Of_SubModalities = RIS_Project_Objects_Static.values('Sub_Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')
+
+
+
+    # Total_Disbursement_Of_SubModalities.filter('')
+
+
+    # 3 Total Projects Till Now
     TotalProjectsTillNow = len(RIS_Project_Objects_Static)
 
     # 3 Country With Most Projects
@@ -155,8 +164,8 @@ def RISDB(request):
         'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,
 
         #---------------------Left Side Card Stats-----------------#
-        'Projects_In_Current_Year_Count': Projects_In_Current_Year_Count,
-        'currentYear': currentYear,
+        'Total_Country_Benefited_Count': Total_Country_Benefited_Count,
+         'Total_Disbursement_Of_SubModalities': Total_Disbursement_Of_SubModalities,
         'TotalProjectsTillNow': TotalProjectsTillNow,
         'Country_With_Most_Disbursement': Country_With_Most_Disbursement,
         'Total_Disbursement_of_development_assistance': Total_Disbursement_of_development_assistance,

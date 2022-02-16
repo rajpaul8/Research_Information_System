@@ -1,94 +1,74 @@
 {% load static %}
 
-<style>
-    .form-control{
-      border-radius: 0.25em;
-    }
-</style>
-
 <!--Filters Section Starts Here-->
 <div class="container filterBox">
-    <!-- Button trigger modal -->
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-  <i class="fa-solid fa-filter pt-1"></i> Apply Filter
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Apply Filter</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-         <form method="GET" id="filterForm" action="{% url 'RISDB' %}">
-        <div class="row">
-
-            <div class="col-md-12 text-center"><h6>Year<i> (Choose Between)</i></h6></div>
-                <div class="col-md-6">
-                 <select name="YearFrom" id="YearFrom" class="form-control p-2" >
-                     <option value="">From</option>
-                    {% for i in Year_Choices %}
-                    <option value="{{i.Year}}">{{i.Year}}</option>
-                    {% endfor %}
+    <form method="GET" id="filterForm" action="{% url 'RISDB' %}" style="margin-bottom: 0;">
+        <div class="row justify_center">
+            <div class="col-md-3 text-center pt-2 pr-3 pl-4 pr-4">
+                <select name="YearFrom" id="YearFrom" class="form-control btn-light" style="color: #999">
+                            <option value="" > Year From</option>
+                            {% for i in Year_Choices %}
+                            <option value="{{i.Year}}">{{i.Year}}</option>
+                            {% endfor %}
                 </select>
-                </div>
-                <div class="col-md-6">
-                 <select name="YearTo" id="YearTo" class="form-control p-2">
-                     <option value="">To</option>
-                    {% for i in Year_Choices %}
-                    <option value="{{i.Year}}">{{i.Year}}</option>
-                    {% endfor %}
-                </select>
-                </div>
-            <div class="col-md-4"><select class="form-control selectpicker p-2"  data-actions-box='true' multiple data-live-search="true" name="PartnerRegion" id="PartnerRegion" title="Partner Region"  data_load_dependent_sub_region_url="{% url 'Load_Dependent_Sub_Region_Filters' %}">
-                        {% for i in Partner_Region_Choices %}
-                        <option value="{{i.id}}">{{i.Partner_Region_Name}}</option>
-                        {% endfor %}
-                </select></div>
-            <div class="col-md-4"><select name="SubRegion" id="SubRegion" data-actions-box='true' class="form-control selectpicker p-2" multiple data-live-search="true" title="Sub Region" data_load_dependent_partner_country_url = "{% url 'Load_Dependent_Partner_Country_Filters' %}">
-                    {% for i in Sub_Region_Choices %}
-                    <option value="{{i.id}}">{{i.Sub_Region_Name}}</option>
-                    {% endfor %}
-                </select></div>
-            <div class="col-md-4"><select name="PartnerCountry" id="PartnerCountry" data-actions-box='true' class="form-control selectpicker p-2" multiple data-live-search="true" title="Partner Country">
-                    {% for i in Partner_Country_Choices %}
-                    <option value="{{i.id}}">{{i.Partner_Country_Name}}</option>
-                    {% endfor %}
-                </select></div>
-                <div class="col-md-4"><select name="Modalities" id="Modalities" data-actions-box='true' class="form-control selectpicker p-2" multiple data-live-search="true" title="Modalities">
-                    {% for i in Modalities_Choices %}
-                    <option value="{{i.Modalities}}">{{i.Modalities}}</option>
-                    {% endfor %}
-                </select></div>
-            <div class="col-md-4"><select name="SubModalities" id="SubModalities" data-actions-box='true' class="form-control selectpicker p-2" multiple data-live-search="true" title="Sub Modalities">
-                    {% for i in SubModalities_Choices %}
-                    <option value="{{i.Sub_Modalities}}">{{i.Sub_Modalities}}</option>
-                    {% endfor %}
-                </select></div>
+            </div>
+                <div class="col-md-3 text-center pt-2 pl-4 pr-4" style="width:90%">
+                        <select name="YearTo" id="YearTo" class="form-control btn-light" style="color: #999">
+                            <option value="" > Year To</option>
+                            {% for i in Year_Choices %}
+                            <option value="{{i.Year}}">{{i.Year}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                <div class="col-md-4"><select name="Sector" id="Sector" data-actions-box='true' class="form-control selectpicker p-2" multiple data-live-search="true" title="Sector">
-                    {% for i in Sector_Choices %}
-                    <option value="{{i.Sector}}">{{i.Sector}}</option>
-                    {% endfor %}
-                </select></div>
+
+            <div class="col-md-3"><select class="form-control selectpicker p-2" data-actions-box='true' multiple
+                                          data-live-search="true" name="PartnerRegion" id="PartnerRegion"
+                                          title="Partner Region"
+                                          data_load_dependent_sub_region_url="{% url 'Load_Dependent_Sub_Region_Filters' %}">
+                {% for i in Partner_Region_Choices %}
+                <option value="{{i.id}}">{{i.Partner_Region_Name}}</option>
+                {% endfor %}
+            </select></div>
+            <div class="col-md-3"><select name="SubRegion" id="SubRegion" data-actions-box='true'
+                                          class="form-control selectpicker p-2" multiple data-live-search="true"
+                                          title="Sub Region"
+                                          data_load_dependent_partner_country_url="{% url 'Load_Dependent_Partner_Country_Filters' %}">
+                {% for i in Sub_Region_Choices %}
+                <option value="{{i.id}}">{{i.Sub_Region_Name}}</option>
+                {% endfor %}
+            </select></div>
+
+            </div>
+            <div class="row">
+                 <div class="col-md-3"><select name="PartnerCountry" id="PartnerCountry" data-actions-box='true'
+                                          class="form-control selectpicker p-2" multiple data-live-search="true"
+                                          title="Partner Country">
+                {% for i in Partner_Country_Choices %}
+                <option value="{{i.id}}">{{i.Partner_Country_Name}}</option>
+                {% endfor %}
+            </select>
+            </div>
+            <div class="col-md-3"><select name="Modalities" id="Modalities" data-actions-box='true'
+                                          class="form-control selectpicker p-2" multiple data-live-search="true"
+                                          title="Modalities">
+                {% for i in Modalities_Choices %}
+                <option value="{{i.Modalities}}">{{i.Modalities}}</option>
+                {% endfor %}
+            </select></div>
+
+            <div class="col-md-3"><select name="SubModalities" id="SubModalities" data-actions-box='true'
+                                          class="form-control selectpicker p-2" multiple data-live-search="true"
+                                          title="Sub Modalities">
+                {% for i in SubModalities_Choices %}
+                <option value="{{i.Sub_Modalities}}">{{i.Sub_Modalities}}</option>
+                {% endfor %}
+            </select></div>
+            <div class="col-md-3 flex-end" >
+                <input type="submit" value="Apply" class="btn btn-submit-orange ">
+            </div>
         </div>
-
-        <div class="col-md-12 pt-2"><input type="submit" value="Submit" class="btn btn-info w-100 "></div>
-
-    </form>
-      </div>
-      <div class="modal-footer">
-
-
-      </div>
-    </div>
-  </div>
-</div>
-
+</form>
 </div>
 
 <!--Filters Section Ends Here-->

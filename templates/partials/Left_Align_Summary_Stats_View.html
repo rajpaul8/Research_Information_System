@@ -27,87 +27,32 @@
     border-radius: 1em;
   }
 
+.flex-start{
+    display:flex;
+    justify-content:flex-start;
+}
 
 </style>
 <!-- Stats Card-->
 <div class="container">
-    <div class="row">
-        <!-- Initiatives In Current Year Card -->
-        <div class="col-xl-12 col-md-12 mb-4">
+    <div class="row ">
+
+        <!-- Total Country Benefited In Current Year Card -->
+        <div class="col-xl-11 col-md-11 mb-4 pt-4 ml-1">
             <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
-                <div class="card-body">
+                <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
-                        <div class="col-md-3 pl-5 justify_center">
-                            <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
-                        </div>
-                        <div class="col-md-9 ">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
-                                        {{Projects_In_Current_Year_Count|floatformat:"0"|intcomma}}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Initiatives in
-                                        {{currentYear}}
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-12 flex-start pl-3">
 
+                            <div class="h2 font-weight-bold  text-success mb-1 text-gray-800 text-center first_box_stat">
 
-                        </div>
+                                    <i class="fa-solid fa-2xs fa-map-location-dot"> &nbsp;</i>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Initiatives Till Date Card -->
-        <div class="col-xl-12 col-md-12 mb-4">
-            <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col-md-3 pl-5  justify_center">
-                            <i class="fa-solid fa-database fa-2x text-gray-300"></i>
-                        </div>
-                        <div class="col-md-9 ">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
-                                        {{TotalProjectsTillNow|floatformat:"0"|intcomma}} Initiatives
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Total Initiatives</div>
+                                 {{Total_Country_Benefited_Count|floatformat:"0"|intcomma}} Countries
                             </div>
                         </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Country With Most Number Of Disbursement Card-->
-        <div class="col-xl-12 col-md-12 mb-4">
-            <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col-md-3 pl-5  justify_center">
-                            <i class="fa fa-globe fa-2x text-gray-300"></i>
-                        </div>
-                        <div class="col-md-9 ">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
-                                        {{Country_With_Most_Disbursement}}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Most Disbursement
-                                    </div>
-                                </div>
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Countries Benefited
                             </div>
                         </div>
 
@@ -117,33 +62,78 @@
         </div>
 
         <!-- Total Disbursement Given In Million USD  -->
-        <div class="col-xl-12 col-md-12 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
-                <div class="card-body">
+        <div class="col-xl-11 col-md-11 mb-4 ml-1">
+            <div class="card border-left-primary shadow h-100 py-2 second_card-body-shadows">
+                <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
-                        <div class="col-md-3 pl-5  justify_center">
-                            <i class="fa-solid fa-dollar-sign fa-2x text-gray-300"></i>
-                        </div>
-                        <div class="col md-9">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
-                                        ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Total Amount
-                                        Disbursed
-                                    </div>
-                                </div>
+                        <div class="col-md-12 flex-start pl-3">
+                            <div class="h2 font-weight-bold  text-success text-gray-800 text-center second_box_stat">
+                                <i class="fa-solid fa-circle-dollar-to-slot fa-2xs"> &nbsp;</i>
+
+                                    ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
+
                             </div>
                         </div>
-
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800 ">Total Disbursement
+                            </div>
+                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Total Disbursement For Line of Credit.. Card -->
+        <div class="col-xl-11 col-md-12 mb-4 ml-1">
+            <div class="card border-left-primary shadow h-100 py-2 third_card-body-shadows">
+                <div class="card-body pt-1 pb-1">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-12 flex-start pl-3">
+                            <div class="h2 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center third_box_stat">
+                                <i class="fa-solid fa-credit-card fa-2xs"> &nbsp;</i>
+
+                                    {% for i in Total_Disbursement_Of_SubModalities %}
+								{% if i.Sub_Modalities == 'Lines of Credit' %}
+								${{i.total|floatformat:"0"|intcomma}} M
+								{% endif%}
+								{% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Lines of Credit
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty Card-->
+        <div class="col-xl-11 col-md-12 mb-4 ml-1">
+            <div class="card border-left-success shadow h-100 py-2 fourth_card-body-shadows">
+                <div class="card-body pt-1 pb-1">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-12 flex-start pl-3">
+                            <div class="h3 font-weight-bold  text-uppercase mb-1 text-gray-800 text-center fourth_box_stat">
+                                <i class="fa-solid fa-credit-card fa-2xs"> &nbsp;</i>
+                                TBD
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                TBD
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
@@ -169,6 +159,7 @@
 
 <!---->
 <script>
+
 // Region Wise Initiatives Bar Chart
 // Converting Django Object Data to JSON Response Here First....
 var Region_Wise_Initiatives = [
@@ -283,6 +274,7 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
     }
 
 });
+
 
 
 </script>
