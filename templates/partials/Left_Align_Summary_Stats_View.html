@@ -1,36 +1,71 @@
 {% load static %}
 {% load humanize %}
 {{ my_num|intcomma }}
-<style>
-  #regionwise_initiatives_card_bar-chart{
-    height:20vh;
-    width:100%;
-    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
-    border: solid 0.6px #e8e8e8;
-    background-color: #fff;
-    border-radius: 1em;
-  }
-  #modality_wise_initiatives_card_horizontal-chart{
-    height:20vh;
-    width:100%;
-    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
-    border: solid 0.6px #e8e8e8;
-    background-color: #fff;
-    border-radius: 1em;
-  }
-  #sector_wise_initiatives_card_horizontal-chart{
-    height:20vh;
-    width:100%;
-    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
-    border: solid 0.6px #e8e8e8;
-    background-color: #fff;
-    border-radius: 1em;
-  }
+<!--<style>-->
+<!--  #regionwise_initiatives_card_bar-chart{-->
+<!--    height:20vh;-->
+<!--    width:100%;-->
+<!--    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);-->
+<!--    border: solid 0.6px #e8e8e8;-->
+<!--    background-color: #fff;-->
+<!--    border-radius: 1em;-->
+<!--  }-->
+<!--  #modality_wise_initiatives_card_horizontal-chart{-->
+<!--    height:20vh;-->
+<!--    width:100%;-->
+<!--    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);-->
+<!--    border: solid 0.6px #e8e8e8;-->
+<!--    background-color: #fff;-->
+<!--    border-radius: 1em;-->
+<!--  }-->
+<!--  #sector_wise_initiatives_card_horizontal-chart{-->
+<!--    height:20vh;-->
+<!--    width:100%;-->
+<!--    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);-->
+<!--    border: solid 0.6px #e8e8e8;-->
+<!--    background-color: #fff;-->
+<!--    border-radius: 1em;-->
+<!--  }-->
 
-.flex-start{
-    display:flex;
-    justify-content:flex-start;
-}
+<!--.flex-start{-->
+<!--    display:flex;-->
+<!--    justify-content:flex-start;-->
+<!--}-->
+
+<!--</style>-->
+<!--MORRIS CHARTS CDN-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<style>
+    .empty_placeholder{
+        height:30vh;
+        background: #FFFFFF;
+        border: 0.6px solid #E8E8E8;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 21px 1px rgba(0, 0, 0, 0.1);
+        border-radius: 0.75rem;
+        width:92%;
+    }
+    .Scholarships_Time_Series_Card{
+        height:30vh;
+        background: #FFFFFF;
+        border: 0.6px solid #E8E8E8;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 21px 1px rgba(0, 0, 0, 0.1);
+        border-radius: 0.75rem;
+        width:92%;
+    }
+    #Scholarships_Time_Series{
+        width:100%;
+        height:75%;
+    }
+    #Duty_Free_Tarrif_Time_Series{
+         width:100%;
+        height:75%;
+    }
 
 </style>
 <!-- Stats Card-->
@@ -44,15 +79,15 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-12 flex-start pl-3">
 
-                            <div class="h2 font-weight-bold  text-success mb-1 text-gray-800 text-center first_box_stat">
+                            <div class="h3 font-weight-bold  text-success mb-1 text-gray-800 text-center first_box_stat">
 
                                     <i class="fa-solid fa-2xs fa-map-location-dot"> &nbsp;</i>
 
-                                 {{Total_Country_Benefited_Count|floatformat:"0"|intcomma}} Countries
+                                 {{Total_Country_Benefited_Count|floatformat:"0"|intcomma}}
                             </div>
                         </div>
                         <div class="col-md-12 pl-3">
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Countries Benefited
+                            <div class="h6 mb-0 font-weight-bold text-gray-800"> Countries Benefited
                             </div>
                         </div>
 
@@ -67,7 +102,7 @@
                 <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-12 flex-start pl-3">
-                            <div class="h2 font-weight-bold  text-success text-gray-800 text-center second_box_stat">
+                            <div class="h3 font-weight-bold  text-success text-gray-800 text-center second_box_stat">
                                 <i class="fa-solid fa-circle-dollar-to-slot fa-2xs"> &nbsp;</i>
 
                                     ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
@@ -90,7 +125,7 @@
                 <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-12 flex-start pl-3">
-                            <div class="h2 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center third_box_stat">
+                            <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center third_box_stat">
                                 <i class="fa-solid fa-credit-card fa-2xs"> &nbsp;</i>
 
                                     {% for i in Total_Disbursement_Of_SubModalities %}
@@ -140,141 +175,209 @@
 
 <!-- Left Side Graphs -->
 <div class="container-fluid">
-    <!-- Region Wise Initiatives   -->
-    <div class="region_wise_initiatives_card">
-        <canvas id="regionwise_initiatives_card_bar-chart"></canvas>
-    </div>
+    <div class="Scholarships_Time_Series_Card">
+        <div class="h6 mb-0 font-weight-bold text-gray-800 text-center p-2" style="font-size:0.75em;">
+                                Scholarships vs Number of Slots Time Series
+                            </div>
+        <div id="Scholarships_Time_Series">
 
-    <!-- Sector Wise Initiatives    -->
-    <div class="pt-3">
-        <canvas id="sector_wise_initiatives_card_horizontal-chart"></canvas>
-    </div>
+        </div>
 
-    <!-- Modality Wise Initiatives    -->
-    <div class="pt-3">
-        <canvas id="modality_wise_initiatives_card_horizontal-chart"></canvas>
     </div>
+    <br>
+    <div class="Scholarships_Time_Series_Card">
+        <div class="h6 mb-0 font-weight-bold text-gray-800 text-center p-2" style="font-size:0.75em;">
+                                Duty Free Tarrif Scheme vs Disbursement Time Series
+                            </div>
+        <div id="Duty_Free_Tarrif_Time_Series">
 
+        </div>
+
+    </div>
 </div>
+<!--<div class="container-fluid">-->
+<!--    &lt;!&ndash; Region Wise Initiatives   &ndash;&gt;-->
+<!--    <div class="region_wise_initiatives_card">-->
+<!--        <canvas id="regionwise_initiatives_card_bar-chart"></canvas>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Sector Wise Initiatives    &ndash;&gt;-->
+<!--    <div class="pt-3">-->
+<!--        <canvas id="sector_wise_initiatives_card_horizontal-chart"></canvas>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Modality Wise Initiatives    &ndash;&gt;-->
+<!--    <div class="pt-3">-->
+<!--        <canvas id="modality_wise_initiatives_card_horizontal-chart"></canvas>-->
+<!--    </div>-->
+
+<!--</div>-->
 
 <!---->
+
+
 <script>
+    new Morris.Line({
+  // ID of the element in which to draw the chart.
+  element: 'Duty_Free_Tarrif_Time_Series',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+  data: [
+    { year: '1948', value: 5 },
+    { year: '1968', value: 0 },
+    { year: '1988', value: 10 },
+    { year: '2008', value: 18 },
+    { year: '2022', value: 8 },
 
-// Region Wise Initiatives Bar Chart
-// Converting Django Object Data to JSON Response Here First....
-var Region_Wise_Initiatives = [
-    {% for i in Region_Wise_Number_Of_Projects %}
-        {% if not forloop.first %},{% endif %}
-        {
-        "Partner_Region" : "{{i.Partner_Region}}",
-        "Total_Initiatives" : "{{i.total}}"
-        }
-    {% endfor %}
-]
-var PartnerRegionLabel=[]
-var TotalInitiatives=[]
-for(var i=0; i<Region_Wise_Initiatives.length; i++){
-    PartnerRegionLabel.push(Region_Wise_Initiatives[i].Partner_Region);
-    TotalInitiatives.push(Region_Wise_Initiatives[i].Total_Initiatives)
-}
-
-new Chart(document.getElementById("regionwise_initiatives_card_bar-chart"), {
-    type: 'bar',
-    data: {
-      labels: PartnerRegionLabel,
-      datasets: [
-        {
-          label: "Total Initiatives",
-          backgroundColor: ["#b51717", "#ffc300","#b51717","#ffc300","#ffc300"],
-          data: TotalInitiatives
-        }
-      ]
-    },
-    options:{
-    indexAxis: 'x',
-    }
-
+  ],
+  // The name of the data record attribute that contains x-values.
+  xkey: 'year',
+  // A list of names of data record attributes that contain y-values.
+  ykeys: ['value'],
+  // Labels for the ykeys -- will be displayed when you hover over the
+  // chart.
+  labels: ['Duty Free Tarrif Scheme']
 });
+new Morris.Line({
+  // ID of the element in which to draw the chart.
+  element: 'Scholarships_Time_Series',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+  data: [
+    { year: '1948', value: 15 },
+    { year: '1968', value: 10 },
+    { year: '1988', value: 15 },
+    { year: '2008', value: 20 },
+    { year: '2022', value: 25 },
 
-// Modality Wise Initiatives
-// Converting Django Object Data to JSON Response Here First....
-var Modality_Wise_Initiatives = [
-    {% for i in Modality_Wise_Number_Of_Projects %}
-        {% if not forloop.first %},{% endif %}
-        {
-        "Modality" : "{{i.Modalities}}",
-        "Total_Initiatives" : "{{i.total}}"
-        }
-
-    {% endfor %}
-]
-
-var ModalitiesLabel=[]
-var Total_Modality_Initiatives=[]
-for(var i=0; i<Modality_Wise_Initiatives.length; i++){
-    ModalitiesLabel.push(Modality_Wise_Initiatives[i].Modality);
-    Total_Modality_Initiatives.push(Modality_Wise_Initiatives[i].Total_Initiatives)
-}
-
-    new Chart(document.getElementById("modality_wise_initiatives_card_horizontal-chart"), {
-    type: 'radar',
-    data: {
-      labels:ModalitiesLabel,
-      datasets: [
-        {
-          label: "Total Modality Initiatives",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: Total_Modality_Initiatives
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Total Modality Initiatives'
-      },
-      indexAxis:'y'
-    }
+  ],
+  // The name of the data record attribute that contains x-values.
+  xkey: 'year',
+  // A list of names of data record attributes that contain y-values.
+  ykeys: ['value'],
+  // Labels for the ykeys -- will be displayed when you hover over the
+  // chart.
+  labels: ['Scholarships']
 });
-
-// Sector Wise Initiatives
-//sector_wise_initiatives_card_horizontal-chart
-
-// Converting Django Object Data to JSON Response Here First....
-var Sector_Wise_Initiatives = [
-    {% for i in Sector_Wise_Number_Of_Projects %}
-        {% if not forloop.first %},{% endif %}
-        {
-        "Sector" : "{{i.Sector}}",
-        "Total_Initiatives" : "{{i.total}}"
-        }
-
-    {% endfor %}
-]
-
-var SectorLabel=[]
-var Total_Sector_Initiatives=[]
-for(var i=0; i<Sector_Wise_Initiatives.length; i++){
-    SectorLabel.push(Sector_Wise_Initiatives[i].Sector);
-    Total_Sector_Initiatives.push(Sector_Wise_Initiatives[i].Total_Initiatives)
-}
-new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart"), {
-    type: 'bar',
-    data: {
-      labels: SectorLabel,
-      datasets: [
-        {
-          label: "Sector Wise Total Initiatives",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: Total_Sector_Initiatives
-        }
-      ]
-    },options:{
-    indexAxis: 'y',
-    }
-
-});
-
-
-
 </script>
+
+<!--<script>-->
+
+<!--// Region Wise Initiatives Bar Chart-->
+<!--// Converting Django Object Data to JSON Response Here First....-->
+<!--var Region_Wise_Initiatives = [-->
+<!--    {% for i in Region_Wise_Number_Of_Projects %}-->
+<!--        {% if not forloop.first %},{% endif %}-->
+<!--        {-->
+<!--        "Partner_Region" : "{{i.Partner_Region}}",-->
+<!--        "Total_Initiatives" : "{{i.total}}"-->
+<!--        }-->
+<!--    {% endfor %}-->
+<!--]-->
+<!--var PartnerRegionLabel=[]-->
+<!--var TotalInitiatives=[]-->
+<!--for(var i=0; i<Region_Wise_Initiatives.length; i++){-->
+<!--    PartnerRegionLabel.push(Region_Wise_Initiatives[i].Partner_Region);-->
+<!--    TotalInitiatives.push(Region_Wise_Initiatives[i].Total_Initiatives)-->
+<!--}-->
+
+<!--new Chart(document.getElementById("regionwise_initiatives_card_bar-chart"), {-->
+<!--    type: 'bar',-->
+<!--    data: {-->
+<!--      labels: PartnerRegionLabel,-->
+<!--      datasets: [-->
+<!--        {-->
+<!--          label: "Total Initiatives",-->
+<!--          backgroundColor: ["#b51717", "#ffc300","#b51717","#ffc300","#ffc300"],-->
+<!--          data: TotalInitiatives-->
+<!--        }-->
+<!--      ]-->
+<!--    },-->
+<!--    options:{-->
+<!--    indexAxis: 'x',-->
+<!--    }-->
+
+<!--});-->
+
+<!--// Modality Wise Initiatives-->
+<!--// Converting Django Object Data to JSON Response Here First....-->
+<!--var Modality_Wise_Initiatives = [-->
+<!--    {% for i in Modality_Wise_Number_Of_Projects %}-->
+<!--        {% if not forloop.first %},{% endif %}-->
+<!--        {-->
+<!--        "Modality" : "{{i.Modalities}}",-->
+<!--        "Total_Initiatives" : "{{i.total}}"-->
+<!--        }-->
+
+<!--    {% endfor %}-->
+<!--]-->
+
+<!--var ModalitiesLabel=[]-->
+<!--var Total_Modality_Initiatives=[]-->
+<!--for(var i=0; i<Modality_Wise_Initiatives.length; i++){-->
+<!--    ModalitiesLabel.push(Modality_Wise_Initiatives[i].Modality);-->
+<!--    Total_Modality_Initiatives.push(Modality_Wise_Initiatives[i].Total_Initiatives)-->
+<!--}-->
+
+<!--    new Chart(document.getElementById("modality_wise_initiatives_card_horizontal-chart"), {-->
+<!--    type: 'radar',-->
+<!--    data: {-->
+<!--      labels:ModalitiesLabel,-->
+<!--      datasets: [-->
+<!--        {-->
+<!--          label: "Total Modality Initiatives",-->
+<!--          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],-->
+<!--          data: Total_Modality_Initiatives-->
+<!--        }-->
+<!--      ]-->
+<!--    },-->
+<!--    options: {-->
+<!--      title: {-->
+<!--        display: true,-->
+<!--        text: 'Total Modality Initiatives'-->
+<!--      },-->
+<!--      indexAxis:'y'-->
+<!--    }-->
+<!--});-->
+
+<!--// Sector Wise Initiatives-->
+<!--//sector_wise_initiatives_card_horizontal-chart-->
+
+<!--// Converting Django Object Data to JSON Response Here First....-->
+<!--var Sector_Wise_Initiatives = [-->
+<!--    {% for i in Sector_Wise_Number_Of_Projects %}-->
+<!--        {% if not forloop.first %},{% endif %}-->
+<!--        {-->
+<!--        "Sector" : "{{i.Sector}}",-->
+<!--        "Total_Initiatives" : "{{i.total}}"-->
+<!--        }-->
+
+<!--    {% endfor %}-->
+<!--]-->
+
+<!--var SectorLabel=[]-->
+<!--var Total_Sector_Initiatives=[]-->
+<!--for(var i=0; i<Sector_Wise_Initiatives.length; i++){-->
+<!--    SectorLabel.push(Sector_Wise_Initiatives[i].Sector);-->
+<!--    Total_Sector_Initiatives.push(Sector_Wise_Initiatives[i].Total_Initiatives)-->
+<!--}-->
+<!--new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart"), {-->
+<!--    type: 'bar',-->
+<!--    data: {-->
+<!--      labels: SectorLabel,-->
+<!--      datasets: [-->
+<!--        {-->
+<!--          label: "Sector Wise Total Initiatives",-->
+<!--          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],-->
+<!--          data: Total_Sector_Initiatives-->
+<!--        }-->
+<!--      ]-->
+<!--    },options:{-->
+<!--    indexAxis: 'y',-->
+<!--    }-->
+
+<!--});-->
+
+
+
+<!--</script>-->

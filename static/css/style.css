@@ -5,17 +5,12 @@
 
 */
 
-body{
-    font-family: Helvetica Neue !important;
-    margin-right: 3%;
-    margin-left: 3%;
+html , body{
+    font-family: “Helvetica Neue”,sans-serif;
+     margin-right: 4%;
+     margin-left: 4%;
 }
-h1, h2, h3, h4, h5, h6, btn {
-    font-family: Helvetica Neue !important;
-}
-h2{
-    font-family: Helvetica Neue !important;
-}
+
 
 /* Header CSS */
 
@@ -45,7 +40,7 @@ h2{
 .btn-orange{
     background-color: #f58549;
     color:white;
-    font-family: HelveticaNeue;
+
 
 }
 
@@ -74,7 +69,7 @@ h2{
     border-radius: 0.75em;
 }
 .first_box_stat{
-    font-family: HelveticaNeue !important;
+
     color: #a949f5 !important;
 }
 .second_card-body-shadows{
@@ -84,7 +79,7 @@ h2{
     border-radius: 0.75em;
 }
 .second_box_stat{
-    font-family: HelveticaNeue !important;
+
     color: #F58549 !important;
 }
 
@@ -97,12 +92,12 @@ h2{
 
 }
 .third_box_stat{
-    font-family: HelveticaNeue !important;
+
     color: #F54949 !important;
 }
 
 .fourth_box_stat {
-    font-family: HelveticaNeue !important;
+
     color: #4979f5;
 }
 .fourth_card-body-shadows{
@@ -114,7 +109,10 @@ border-radius: 0.75em;
 
 }
 .form-control{
-      border-radius: 0.25em;
+        border-radius: 0.25em;
+        border: 1px solid #A6A6A6 !important;
+        box-sizing: border-box;
+        font-size: 0.879em !important;
     }
     .flex-end{
         display:flex;
@@ -129,10 +127,16 @@ border-radius: 0.75em;
     background-color: #fff;
     padding-left:1em;
     }
+    #YearTo option, #YearFrom option{
+        background: white;
+        color: #212529;
+        font-size: 1rem;
+    }
+
     .btn-submit-orange{
         background-color: #f58549;
         color:white;
-        font-family: HelveticaNeue;
+
         width:100%;
         border-radius:0.5em;
 
@@ -140,3 +144,71 @@ border-radius: 0.75em;
     .btn-submit-orange:hover{
         background-color: #f4f3fc;
     }
+
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner{
+    font-size: 0.879em !important;
+}
+.bootstrap-select .dropdown-menu.inner{
+    overflow-y: scroll;
+    height: 150px;
+    width: 250px;
+}
+
+
+/* Custom Scroll-bar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+
+/* Footer */
+footer{
+    width:100%;
+    height:7.125rem;
+
+}
+.footer-links{
+    display: inline-block;
+    border: 1px solid #494949;
+    border-radius: 100px;
+    margin: 0 3px;
+}
+.footer-links i {
+    font-size: 18px;
+    color: #494949;
+    display: block;
+    width: 35px;
+    height: 35px;
+    line-height: 38px;
+    text-align: center;
+    }
+.footer-links:hover {
+    background: #ff7300 !important;
+    border: none !important;
+    border: 1px solid #fff !important;
+    text-decoration:none;
+}
+.footer-links:hover .fa {
+    color: #fff !important;
+}
+
+.footer-links-a a{
+    color:black !important;
+}

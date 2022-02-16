@@ -91,42 +91,41 @@ def RISDB(request):
     #                                  For Left Sidebar Graphs -                        #
     #####################################################################################
     # 1 Display Region-Wise Number Of Projects
-    Region_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(total=Count('id'))
+    # Region_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(total=Count('id'))
 
     # 2 Display Modality-Wise Number Of Projects
-    Modality_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Modalities').order_by('Modalities').annotate(total=Count('id'))
+    # Modality_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Modalities').order_by('Modalities').annotate(total=Count('id'))
 
     # 3 Display Sector-Wise Number Of Projects
-    Sector_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Sector').order_by('Sector').annotate(total=Count('id'))
+    # Sector_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Sector').order_by('Sector').annotate(total=Count('id'))
 
 
     #####################################################################################
-    #                                  For Right Sidebar Cards -                         #
+    #                                  For Left Sidebar Cards -                         #
     #######################################################################################
-
     # 1 Total Country Benefited
-
     Total_Country_Benefited_Count = len(RIS_Project_Objects_Static.values('Partner_Country').distinct())
-
 
     # 2 Lines of Credit Total Disbursement
     Total_Disbursement_Of_SubModalities = RIS_Project_Objects_Static.values('Sub_Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')
 
-
-
     # Total_Disbursement_Of_SubModalities.filter('')
-
-
-    # 3 Total Projects Till Now
-    TotalProjectsTillNow = len(RIS_Project_Objects_Static)
-
-    # 3 Country With Most Projects
-    Country_Wise_Disbursement = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore')).order_by('-total')[0]
-    Country_With_Most_Disbursement = Country_Wise_Disbursement['Partner_Country']
-    # 4 Total Disbursement_of_development_assistance_Rs_Crore
-    Country_Wise_Disbursement_Total = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore')).order_by('-total')
+    # 3 Total Disbursement_of_development_assistance_USD_million
+    Country_Wise_Disbursement_Total = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')
 
     Total_Disbursement_of_development_assistance = Country_Wise_Disbursement_Total.aggregate(Sum('total'))['total__sum']
+
+    # Time-Series Charts (Small left side card)
+    # 4 In Sub-modalities put filter of Scholarship and plot it against Number of Slots Over The Period Of Time (10 year aggregate)
+
+    pivot_table = pivot(RIS_Project_Objects_Static, 'Year', 'Sub_Modalities', 'No_of_Slots_Utilized')
+
+
+
+
+    # 3 Country With Most Projects
+    # Country_Wise_Disbursement = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')[0]
+    # Country_With_Most_Disbursement = Country_Wise_Disbursement['Partner_Country']
 
     #####################################################################################
     #                                  For Middle Section Charts -                         #
@@ -151,6 +150,7 @@ def RISDB(request):
 
 
     context = {
+        'pivot_table': pivot_table,
         'RIS_Project_Objects': RIS_Project_Objects,
         # --------------- Filtering Form ---------------------- #
         'Partner_Region_Choices': Partner_Region_Choices,
@@ -166,14 +166,13 @@ def RISDB(request):
         #---------------------Left Side Card Stats-----------------#
         'Total_Country_Benefited_Count': Total_Country_Benefited_Count,
          'Total_Disbursement_Of_SubModalities': Total_Disbursement_Of_SubModalities,
-        'TotalProjectsTillNow': TotalProjectsTillNow,
-        'Country_With_Most_Disbursement': Country_With_Most_Disbursement,
         'Total_Disbursement_of_development_assistance': Total_Disbursement_of_development_assistance,
+        # 'TotalProjectsTillNow': TotalProjectsTillNow,
+        # 'Country_With_Most_Disbursement': Country_With_Most_Disbursement,
+
 
         #-----------Left Side Dynamic Charts and Graphs----------------#
-        'Region_Wise_Number_Of_Projects': Region_Wise_Number_Of_Projects,
-        'Modality_Wise_Number_Of_Projects': Modality_Wise_Number_Of_Projects,
-        'Sector_Wise_Number_Of_Projects': Sector_Wise_Number_Of_Projects
+
 
     }
     return render(request, 'RIS_DB\RIS_DB_Home.html', context)

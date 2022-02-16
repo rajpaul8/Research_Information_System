@@ -28,6 +28,7 @@
 }
 .info { padding: 6px 8px; font-size:1em; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
 .legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 10px; height: 10px; float: left; margin-right: 8px; opacity: 0.7; }
+
 </style>
 
 <style>
@@ -36,12 +37,44 @@
     width:100%;
     background: rgb(251 251 251);
 }
-
 </style>
 
+<style>
+  #regionwise_initiatives_card_bar-chart{
+    height:40vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    border-radius: 1em;
+  }
+  #modality_wise_initiatives_card_horizontal-chart{
+    height:40vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    border-radius: 1em;
+  }
+  #sector_wise_initiatives_card_horizontal-chart{
+    height:40vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    border-radius: 1em;
+  }
+
+.flex-start{
+    display:flex;
+    justify-content:flex-start;
+}
+
+
+</style>
 <!--Home Page Is Divided Into 2 Sections Vertically  1-Left Side Stats View 2-Main Hero Container-->
 
-<div class="container-fluid pt-3">
+<div class="container-fluid">
     <div class="row">
         <!--  Left Side Stats Cards View  -->
         <div class="col-md-3 lg-6 left_section">
@@ -49,33 +82,170 @@
         </div>
 
         <!-- Main Hero Section -->
-        <div class="col-md-9 lg-6">
+        <div class="col-md-9 lg-6 pt-3">
 
             <div class="row">
                 <!-- Top Filter Bar  -->
-                <div class="col-md-12">{% include 'partials\Top_Align_Filters.html' %}</div>
+                <div class="col-md-12 pt-3">{% include 'partials\Top_Align_Filters.html' %}</div>
 
             </div>
             <!-- Time Series Charts and Graphs  -->
             <div class="row p-3">
-                <div class="col-md-6">
+                <div class="container pt-3">
+                    <h5>
+                        <b>Explore through interactive charts</b>
+                    </h5>
+                </div>
+                <div class="col-md-6 pt-2">
+                    <!-- Region Wise Initiatives   -->
+                    <div class="region_wise_initiatives_card">
+                        <canvas id="regionwise_initiatives_card_bar-chart"></canvas>
+                    </div>
+
 
                 </div>
                 <div class="col-md-6">
-
+                    <!-- Sector Wise Initiatives    -->
+                    <div class="pt-2">
+                        <canvas id="sector_wise_initiatives_card_horizontal-chart"></canvas>
+                    </div>
                 </div>
             </div>
             <!--  Map and Chart          -->
-            <div class="row p-3">
+            <div class="row p-3 pt-5">
                 <div class="col-md-12">
                     <!-- For Map  -->
-                        <div id="map"></div>
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
     </div>
 
+
 </div>
+
+<!---->
+<script>
+
+// Region Wise Initiatives Bar Chart
+// Converting Django Object Data to JSON Response Here First....
+var Region_Wise_Initiatives = [
+    {% for i in Region_Wise_Number_Of_Projects %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Partner_Region" : "{{i.Partner_Region}}",
+        "Total_Initiatives" : "{{i.total}}"
+        }
+    {% endfor %}
+]
+var PartnerRegionLabel=[]
+var TotalInitiatives=[]
+for(var i=0; i<Region_Wise_Initiatives.length; i++){
+    PartnerRegionLabel.push(Region_Wise_Initiatives[i].Partner_Region);
+    TotalInitiatives.push(Region_Wise_Initiatives[i].Total_Initiatives)
+}
+
+new Chart(document.getElementById("regionwise_initiatives_card_bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: PartnerRegionLabel,
+      datasets: [
+        {
+          label: "Total Initiatives",
+          backgroundColor: ["#b51717", "#ffc300","#b51717","#ffc300","#ffc300"],
+          data: TotalInitiatives
+        }
+      ]
+    },
+    options:{
+    indexAxis: 'x',
+    }
+
+});
+
+// Modality Wise Initiatives
+// Converting Django Object Data to JSON Response Here First....
+var Modality_Wise_Initiatives = [
+    {% for i in Modality_Wise_Number_Of_Projects %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Modality" : "{{i.Modalities}}",
+        "Total_Initiatives" : "{{i.total}}"
+        }
+
+    {% endfor %}
+]
+
+var ModalitiesLabel=[]
+var Total_Modality_Initiatives=[]
+for(var i=0; i<Modality_Wise_Initiatives.length; i++){
+    ModalitiesLabel.push(Modality_Wise_Initiatives[i].Modality);
+    Total_Modality_Initiatives.push(Modality_Wise_Initiatives[i].Total_Initiatives)
+}
+
+    new Chart(document.getElementById("modality_wise_initiatives_card_horizontal-chart"), {
+    type: 'radar',
+    data: {
+      labels:ModalitiesLabel,
+      datasets: [
+        {
+          label: "Total Modality Initiatives",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: Total_Modality_Initiatives
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Total Modality Initiatives'
+      },
+      indexAxis:'y'
+    }
+});
+
+// Sector Wise Initiatives
+//sector_wise_initiatives_card_horizontal-chart
+
+// Converting Django Object Data to JSON Response Here First....
+var Sector_Wise_Initiatives = [
+    {% for i in Sector_Wise_Number_Of_Projects %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Sector" : "{{i.Sector}}",
+        "Total_Initiatives" : "{{i.total}}"
+        }
+
+    {% endfor %}
+]
+
+var SectorLabel=[]
+var Total_Sector_Initiatives=[]
+for(var i=0; i<Sector_Wise_Initiatives.length; i++){
+    SectorLabel.push(Sector_Wise_Initiatives[i].Sector);
+    Total_Sector_Initiatives.push(Sector_Wise_Initiatives[i].Total_Initiatives)
+}
+new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart"), {
+    type: 'bar',
+    data: {
+      labels: SectorLabel,
+      datasets: [
+        {
+          label: "Sector Wise Total Initiatives",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: Total_Sector_Initiatives
+        }
+      ]
+    },options:{
+    indexAxis: 'y',
+    }
+
+});
+
+
+
+
+</script>
 
 <script>
   var Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON = [
@@ -226,6 +396,7 @@
 	legend.addTo(map);
 
 	//Adding Marker in Center Of Map
+
 
 
 
