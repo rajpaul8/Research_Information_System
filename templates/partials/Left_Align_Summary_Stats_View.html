@@ -26,85 +26,127 @@
     background-color: #fff;
     border-radius: 1em;
   }
+
+
 </style>
 <!-- Stats Card-->
-<div class="row">
-    <!-- Initiatives In Current Year Card -->
-    <div class="col-xl-6 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
-                            {{Projects_In_Current_Year_Count}}
+<div class="container">
+    <div class="row">
+        <!-- Initiatives In Current Year Card -->
+        <div class="col-xl-12 col-md-12 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-3 pl-5 justify_center">
+                            <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
                         </div>
-                        <div class="h6 mb-0 font-weight-bold text-gray-800">Initiatives in {{currentYear}}</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
+                        <div class="col-md-9 ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
+                                        {{Projects_In_Current_Year_Count}} Initiatives
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Initiatives in
+                                        {{currentYear}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Total Initiatives Till Date Card -->
-    <div class="col-xl-6 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
-                            {{TotalProjectsTillNow}}
+        <!-- Total Initiatives Till Date Card -->
+        <div class="col-xl-12 col-md-12 mb-4">
+            <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-3 pl-5  justify_center">
+                            <i class="fa-solid fa-database fa-2x text-gray-300"></i>
                         </div>
-                        <div class="h6 mb-0 font-weight-bold text-gray-800">Total Initiatives</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-solid fa-database fa-2x text-gray-300"></i>
+                        <div class="col-md-9 ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
+                                        {{TotalProjectsTillNow}} Initiatives
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Total Initiatives</div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Country With Most Number Of Disbursement Card-->
-    <div class="col-xl-6 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
-                            {{Country_With_Most_Disbursement}}
+        <!-- Country With Most Number Of Disbursement Card-->
+        <div class="col-xl-12 col-md-12 mb-4">
+            <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-3 pl-5  justify_center">
+                            <i class="fa fa-globe fa-2x text-gray-300"></i>
                         </div>
-                        <div class="h6 mb-0 font-weight-bold text-gray-800">Most Disbursement </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-solid fa-database fa-2x text-gray-300"></i>
+                        <div class="col-md-9 ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
+                                        {{Country_With_Most_Disbursement}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Most Disbursement
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Total Disbursement Given In Million USD  -->
-    <div class="col-xl-6 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
-                            ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
+        <!-- Total Disbursement Given In Million USD  -->
+        <div class="col-xl-12 col-md-12 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-3 pl-5  justify_center">
+                            <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
                         </div>
-                        <div class="h6 mb-0 font-weight-bold text-gray-800">Total Amount Disbursed</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
+                        <div class="col md-9">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
+                                        ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center">Total Amount
+                                        Disbursed
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Left Side Graphs -->
 <div class="container-fluid">
@@ -241,4 +283,6 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
     }
 
 });
+
+
 </script>
