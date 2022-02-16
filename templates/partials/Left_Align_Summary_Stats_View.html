@@ -44,7 +44,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
-                                        {{Projects_In_Current_Year_Count}} Initiatives
+                                        {{Projects_In_Current_Year_Count|floatformat:"0"|intcomma}}
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -74,7 +74,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
-                                        {{TotalProjectsTillNow}} Initiatives
+                                        {{TotalProjectsTillNow|floatformat:"0"|intcomma}} Initiatives
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-3 pl-5  justify_center">
-                            <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
                         <div class="col md-9">
                             <div class="row">
