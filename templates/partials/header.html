@@ -1,28 +1,25 @@
 {% load static %}
-<style>
-    .bg-light{
-        background-color: #ffffff!important;
-        padding-left: 6em;
-        padding-right: 6em;
-    }
 
-</style>
-<div class="container-fluid">
-<nav class="navbar navbar-expand-lg navbar-light bg-light pt-2">
-  <a class="navbar-brand" href="/"><img src="{% static 'image\header\RIS_Logo.jpg' %}" alt="RIS_Logo" height="50" width ="218"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<div class="container-fluid-p-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light Rectangle-36">
+        <a class="navbar-brand pl-3" href="/"><img
+                src="{% static 'image\header\RIS_Logo.jpg' %}" alt="RIS_Logo" height="50" width="218"></a></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto pr-5">
-      <li class="nav-item active pr-3">
-        <a class="nav-link" href="#"><h6>RIS Dashboard</h6> <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#"><h6>View More Insights</h6> </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <div class="login">
+                <a href="#">
+                    <button type="button" class="btn btn-orange"><i class="fa-solid fa-power-off" class="pr-1"></i>
+                        Login
+                    </button>
+                </a>
+            </div>
+        </div>
+    </nav>
 </div>
+

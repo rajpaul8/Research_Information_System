@@ -92,10 +92,10 @@ def RISDB(request):
     #####################################################################################
     # 1 Display Region-Wise Number Of Projects
     Region_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(total=Count('id'))
-
+    print(Region_Wise_Number_Of_Projects)
     # 2 Display Modality-Wise Number Of Projects
     Modality_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Modalities').order_by('Modalities').annotate(total=Count('id'))
-
+    print(Modality_Wise_Number_Of_Projects)
     # 3 Display Sector-Wise Number Of Projects
     Sector_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Sector').order_by('Sector').annotate(total=Count('id'))
 
@@ -112,11 +112,10 @@ def RISDB(request):
     TotalProjectsTillNow = len(RIS_Project_Objects_Static)
 
     # 3 Country With Most Projects
-    Country_Wise_Number_Of_Projects = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore')).order_by('-total')[0]
-    Country_With_Most_Projects = Country_Wise_Number_Of_Projects['Partner_Country']
-
+    Country_Wise_Disbursement = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_Rs_Crore')).order_by('-total')[0]
+    Country_With_Most_Disbursement = Country_Wise_Disbursement['Partner_Country']
     # 4 Total Disbursement_of_development_assistance_Rs_Crore
-    Total_Disbursement_of_development_assistance = Country_Wise_Number_Of_Projects['total']
+    Total_Disbursement_of_development_assistance = Country_Wise_Disbursement['total']
 
     #####################################################################################
     #                                  For Middle Section Charts -                         #
@@ -151,7 +150,20 @@ def RISDB(request):
         'Sector_Choices': Sector_Choices,
         'Year_Choices': Year_Choices,
         'Year_Wise_Number_Of_Projects': Year_Wise_Number_Of_Projects,
-        'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping
+        'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,
+
+        #---------------------Left Side Card Stats-----------------#
+        'Projects_In_Current_Year_Count': Projects_In_Current_Year_Count,
+        'currentYear': currentYear,
+        'TotalProjectsTillNow': TotalProjectsTillNow,
+        'Country_With_Most_Disbursement': Country_With_Most_Disbursement,
+        'Total_Disbursement_of_development_assistance': Total_Disbursement_of_development_assistance,
+
+        #-----------Left Side Dynamic Charts and Graphs----------------#
+        'Region_Wise_Number_Of_Projects': Region_Wise_Number_Of_Projects,
+        'Modality_Wise_Number_Of_Projects': Modality_Wise_Number_Of_Projects,
+        'Sector_Wise_Number_Of_Projects': Sector_Wise_Number_Of_Projects
+
     }
     return render(request, 'RIS_DB\RIS_DB_Home.html', context)
 

@@ -1,1 +1,244 @@
 {% load static %}
+{% load humanize %}
+{{ my_num|intcomma }}
+<style>
+  #regionwise_initiatives_card_bar-chart{
+    height:20vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    border-radius: 1em;
+  }
+  #modality_wise_initiatives_card_horizontal-chart{
+    height:20vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    border-radius: 1em;
+  }
+  #sector_wise_initiatives_card_horizontal-chart{
+    height:20vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    border-radius: 1em;
+  }
+</style>
+<!-- Stats Card-->
+<div class="row">
+    <!-- Initiatives In Current Year Card -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
+                            {{Projects_In_Current_Year_Count}}
+                        </div>
+                        <div class="h6 mb-0 font-weight-bold text-gray-800">Initiatives in {{currentYear}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Initiatives Till Date Card -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
+                            {{TotalProjectsTillNow}}
+                        </div>
+                        <div class="h6 mb-0 font-weight-bold text-gray-800">Total Initiatives</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-database fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Country With Most Number Of Disbursement Card-->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2 second_card-body-shadows">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center second_box_stat">
+                            {{Country_With_Most_Disbursement}}
+                        </div>
+                        <div class="h6 mb-0 font-weight-bold text-gray-800">Most Disbursement </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-database fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Disbursement Given In Million USD  -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2 card-body-shadows">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center first_box_stat">
+                            ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
+                        </div>
+                        <div class="h6 mb-0 font-weight-bold text-gray-800">Total Amount Disbursed</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Left Side Graphs -->
+<div class="container-fluid">
+    <!-- Region Wise Initiatives   -->
+    <div class="region_wise_initiatives_card">
+        <canvas id="regionwise_initiatives_card_bar-chart"></canvas>
+    </div>
+
+    <!-- Sector Wise Initiatives    -->
+    <div class="pt-3">
+        <canvas id="sector_wise_initiatives_card_horizontal-chart"></canvas>
+    </div>
+
+    <!-- Modality Wise Initiatives    -->
+    <div class="pt-3">
+        <canvas id="modality_wise_initiatives_card_horizontal-chart"></canvas>
+    </div>
+
+</div>
+
+<!---->
+<script>
+// Region Wise Initiatives Bar Chart
+// Converting Django Object Data to JSON Response Here First....
+var Region_Wise_Initiatives = [
+    {% for i in Region_Wise_Number_Of_Projects %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Partner_Region" : "{{i.Partner_Region}}",
+        "Total_Initiatives" : "{{i.total}}"
+        }
+    {% endfor %}
+]
+var PartnerRegionLabel=[]
+var TotalInitiatives=[]
+for(var i=0; i<Region_Wise_Initiatives.length; i++){
+    PartnerRegionLabel.push(Region_Wise_Initiatives[i].Partner_Region);
+    TotalInitiatives.push(Region_Wise_Initiatives[i].Total_Initiatives)
+}
+
+new Chart(document.getElementById("regionwise_initiatives_card_bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: PartnerRegionLabel,
+      datasets: [
+        {
+          label: "Total Initiatives",
+          backgroundColor: ["#b51717", "#ffc300","#b51717","#ffc300","#ffc300"],
+          data: TotalInitiatives
+        }
+      ]
+    },
+    options:{
+    indexAxis: 'x',
+    }
+
+});
+
+// Modality Wise Initiatives
+// Converting Django Object Data to JSON Response Here First....
+var Modality_Wise_Initiatives = [
+    {% for i in Modality_Wise_Number_Of_Projects %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Modality" : "{{i.Modalities}}",
+        "Total_Initiatives" : "{{i.total}}"
+        }
+
+    {% endfor %}
+]
+
+var ModalitiesLabel=[]
+var Total_Modality_Initiatives=[]
+for(var i=0; i<Modality_Wise_Initiatives.length; i++){
+    ModalitiesLabel.push(Modality_Wise_Initiatives[i].Modality);
+    Total_Modality_Initiatives.push(Modality_Wise_Initiatives[i].Total_Initiatives)
+}
+
+    new Chart(document.getElementById("modality_wise_initiatives_card_horizontal-chart"), {
+    type: 'radar',
+    data: {
+      labels:ModalitiesLabel,
+      datasets: [
+        {
+          label: "Total Modality Initiatives",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: Total_Modality_Initiatives
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Total Modality Initiatives'
+      },
+      indexAxis:'y'
+    }
+});
+
+// Sector Wise Initiatives
+//sector_wise_initiatives_card_horizontal-chart
+
+// Converting Django Object Data to JSON Response Here First....
+var Sector_Wise_Initiatives = [
+    {% for i in Sector_Wise_Number_Of_Projects %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Sector" : "{{i.Sector}}",
+        "Total_Initiatives" : "{{i.total}}"
+        }
+
+    {% endfor %}
+]
+
+var SectorLabel=[]
+var Total_Sector_Initiatives=[]
+for(var i=0; i<Sector_Wise_Initiatives.length; i++){
+    SectorLabel.push(Sector_Wise_Initiatives[i].Sector);
+    Total_Sector_Initiatives.push(Sector_Wise_Initiatives[i].Total_Initiatives)
+}
+new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart"), {
+    type: 'bar',
+    data: {
+      labels: SectorLabel,
+      datasets: [
+        {
+          label: "Sector Wise Total Initiatives",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: Total_Sector_Initiatives
+        }
+      ]
+    },options:{
+    indexAxis: 'y',
+    }
+
+});
+</script>
