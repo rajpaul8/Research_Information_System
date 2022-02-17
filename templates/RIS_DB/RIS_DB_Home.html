@@ -82,7 +82,7 @@
         </div>
 
         <!-- Main Hero Section -->
-        <div class="col-md-9 lg-6 pt-3">
+        <div class="col-md-9 lg-6 pt-4">
 
             <div class="row">
                 <!-- Top Filter Bar  -->
@@ -93,20 +93,22 @@
             <div class="row p-3">
                 <div class="container pt-3">
                     <h5>
-                        <b>Explore through interactive charts</b>
+                        <b>Explore through interactive charts and map</b>
                     </h5>
                 </div>
                 <div class="col-md-6 pt-2">
-                    <!-- Region Wise Initiatives   -->
+                    <!-- Total  Cummulative ($M) Disbursement with Time -- Area Chart --->
                     <div class="region_wise_initiatives_card">
+                        <p>Cumulative Disbursement ($ Million) with Time</p>
                         <canvas id="regionwise_initiatives_card_bar-chart"></canvas>
                     </div>
 
 
                 </div>
                 <div class="col-md-6">
-                    <!-- Sector Wise Initiatives    -->
+                    <!-- Total Disbursement by Modality    -->
                     <div class="pt-2">
+                        <p>Total Disbursement ($ Million) by Modality</p>
                         <canvas id="sector_wise_initiatives_card_horizontal-chart"></canvas>
                     </div>
                 </div>
@@ -115,6 +117,7 @@
             <div class="row p-3 pt-5">
                 <div class="col-md-12">
                     <!-- For Map  -->
+
                     <div id="map"></div>
                 </div>
             </div>
@@ -252,7 +255,7 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
     {% for i in Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping %}
         {% if not forloop.first %},{% endif %}
         {
-            "Partner_Region": "{{i.Partner_Region}}",
+            "Partner_Country": "{{i.Partner_Country}}",
             "Disbursement": "{{i.Disbursement}}",
             "Commitment": "{{i.Commitment}}"
 
@@ -261,17 +264,19 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
   ]
 
   // Adding the desired properties of our data to geojson properies
-  var ContinentMapAddedProperties = ContinentMap;
-  console.log(ContinentMap, ": Before Adding Properties from our model")
-
+  var ContinentMapAddedProperties = CountryMap;
+  console.log(CountryMap, ": Before Adding Properties from our model")
+    var count =0;
   for(var i =0; i<ContinentMapAddedProperties.features.length; i++){
         for(var j=0; j<Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON.length; j++){
-            if(ContinentMapAddedProperties.features[i].properties.name == Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Partner_Region){
+            if(ContinentMapAddedProperties.features[i].properties.name == Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Partner_Country){
+                count++;
                 ContinentMapAddedProperties.features[i].properties['Disbursement']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Disbursement
                 ContinentMapAddedProperties.features[i].properties['Commitment']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Commitment
             }
           }
     }
+    console.log(count,': Matched')
     console.log(ContinentMapAddedProperties, ": After Adding Properties from our model")
 // Code For Leaflet Map Starts Here ----->
 
@@ -297,7 +302,7 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
 	};
 
 	info.update = function (props) {
-		this._div.innerHTML = '<h6><b>Summary Based on <br>Partner Regions </b></h4>' +  (props ?
+		this._div.innerHTML = '' +  (props ?
 			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' +Math.round(props.Disbursement) + 'M'+'</b><br />' + 'Commitment: $' +Math.round(props.Commitment) + 'M' : 'Hover over a region');
 	};
 
@@ -363,7 +368,7 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
 	}
 
 	/* global CountryMap */
-	geojson = L.geoJson(ContinentMapAddedProperties, {
+	geojson = L.geoJson(CountryMap, {
 		style: style,
 		onEachFeature: onEachFeature
 	}).addTo(map);

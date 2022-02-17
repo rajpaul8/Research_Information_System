@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'import_export',
     'RISDatabase.apps.RisdatabaseConfig',
     'django_pivot',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'Accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [

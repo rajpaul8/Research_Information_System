@@ -11,14 +11,51 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-
+            {% if user.is_authenticated %}
             <div class="login">
-                <a href="#">
+                <a href="/Accounts/Login">
                     <button type="button" class="btn btn-orange">
-                        Access Complete Database
+                        Logout
                     </button>
                 </a>
             </div>
+            {% else %}
+                {% if 'UserProfile' in request.path %}
+                <div class="login">
+                    <a href="/Accounts/Logout">
+                        <button type="button" class="btn btn-orange">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+                {% elif 'Login' in request.path %}
+                <div class="login">
+                        <a href="/">
+                            <button type="button" class="btn btn-orange">
+                                Back To Dashboard
+                            </button>
+                        </a>
+                </div>
+                {% elif 'Register' in request.path %}
+                <div class="login">
+                    <a href="/">
+                        <button type="button" class="btn btn-orange">
+                            Back To Dashboard
+                        </button>
+                    </a>
+                </div>
+                {% else %}
+                <div class="login">
+                    <a href="/Accounts/Login">
+                        <button type="button" class="btn btn-orange">
+                            Access Complete Database
+                        </button>
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
+
+
         </div>
     </nav>
 </div>
