@@ -29,6 +29,7 @@
 .info { padding: 6px 8px; font-size:1em; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
 .legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 10px; height: 10px; float: left; margin-right: 8px; opacity: 0.7; }
 
+
 </style>
 
 <style>
@@ -37,11 +38,12 @@
     width:100%;
     background: rgb(251 251 251);
 }
+
 </style>
 
 <style>
   #regionwise_initiatives_card_bar-chart{
-    height:40vh;
+    height:60vh;
     width:100%;
     box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
     border: solid 0.6px #e8e8e8;
@@ -49,25 +51,43 @@
     border-radius: 1em;
   }
   #modality_wise_initiatives_card_horizontal-chart{
-    height:40vh;
+    height:60vh;
     width:100%;
     box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
     border: solid 0.6px #e8e8e8;
     background-color: #fff;
     border-radius: 1em;
   }
-  #sector_wise_initiatives_card_horizontal-chart{
-    height:40vh;
+  .TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card{
+    height:32vh;
     width:100%;
     box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
     border: solid 0.6px #e8e8e8;
     background-color: #fff;
     border-radius: 1em;
   }
+  canvas{
+  padding:0.5em;
+  width:100% !important;
+  height:auto;
+
+}
 
 .flex-start{
     display:flex;
     justify-content:flex-start;
+}
+.btn-primary-download{
+    color: #232256;
+    background-color: #f8f9fa;
+    border-color: #a7a6e0;
+    padding: 0.25em;
+    margin-right: 0.5em;
+    position:relative;
+    bottom:98%;
+    left:94%;
+
+
 }
 
 
@@ -98,9 +118,18 @@
                 </div>
                 <div class="col-md-6 pt-2">
                     <!-- Total  Cummulative ($M) Disbursement with Time -- Area Chart --->
-                    <div class="region_wise_initiatives_card">
-                        <p>Cumulative Disbursement ($ Million) with Time</p>
-                        <canvas id="regionwise_initiatives_card_bar-chart"></canvas>
+                    <div class="TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card">
+
+                        <canvas id="TotalCumulativeDisbursement_with_Time_Chart_Dynamic"></canvas>
+                        <a id="download"
+                           download="Cumulative_Disbursement_With_Time.jpg"
+                           href=""
+                           class="btn-primary-download bg-flat-color-1"
+                           title="Export chart as image">
+                            <p style="font-size:0.8em"><i class="fa-solid fa-download"> </i> </p>
+
+                            <!-- Download Icon -->
+                            </a>
                     </div>
 
 
@@ -129,125 +158,102 @@
 
 <!---->
 <script>
+///// -- ALL CHARTS ARE PLOTTED USING MORRIS JS ////
+/* ------------------------------------
+----------------CHART 1 BEGINS HERE ---------
+-------------------------------------------------*/
 
-// Region Wise Initiatives Bar Chart
 // Converting Django Object Data to JSON Response Here First....
-var Region_Wise_Initiatives = [
-    {% for i in Region_Wise_Number_Of_Projects %}
+var Total_Disbursement_with_Time_Dynamic_Chart_JSON = [
+    {% for i in Total_Disbursement_with_Time_Dynamic_Chart %}
         {% if not forloop.first %},{% endif %}
         {
-        "Partner_Region" : "{{i.Partner_Region}}",
-        "Total_Initiatives" : "{{i.total}}"
+        "Year" : "{{i.Year}}",
+        "Cumulative_Disbursement_Frequency" : "{{i.Cumulative_Disbursement_Frequency}}"
         }
     {% endfor %}
 ]
-var PartnerRegionLabel=[]
-var TotalInitiatives=[]
-for(var i=0; i<Region_Wise_Initiatives.length; i++){
-    PartnerRegionLabel.push(Region_Wise_Initiatives[i].Partner_Region);
-    TotalInitiatives.push(Region_Wise_Initiatives[i].Total_Initiatives)
-}
-
-new Chart(document.getElementById("regionwise_initiatives_card_bar-chart"), {
-    type: 'bar',
-    data: {
-      labels: PartnerRegionLabel,
-      datasets: [
-        {
-          label: "Total Initiatives",
-          backgroundColor: ["#b51717", "#ffc300","#b51717","#ffc300","#ffc300"],
-          data: TotalInitiatives
-        }
-      ]
-    },
-    options:{
-    indexAxis: 'x',
-    }
-
+Total_Disbursement_with_Time_Dynamic_Chart_JSON.forEach(function(d) {
+    d.Cumulative_Disbursement_Frequency = parseInt(d.Cumulative_Disbursement_Frequency,10);
 });
 
-// Modality Wise Initiatives
-// Converting Django Object Data to JSON Response Here First....
-var Modality_Wise_Initiatives = [
-    {% for i in Modality_Wise_Number_Of_Projects %}
-        {% if not forloop.first %},{% endif %}
-        {
-        "Modality" : "{{i.Modalities}}",
-        "Total_Initiatives" : "{{i.total}}"
-        }
+//Getting Every 10th Year Observation
+const every_nth_dynamic_chart = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
+var TwoDecadal_DisbursementTimeSeries_Dynamic_Chart = every_nth_dynamic_chart(Total_Disbursement_with_Time_Dynamic_Chart_JSON,10);
+console.log(TwoDecadal_DisbursementTimeSeries_Dynamic_Chart, 'TwoDecadal_DisbursementTimeSeries_Dynamic_Chart')
 
-    {% endfor %}
-]
 
-var ModalitiesLabel=[]
-var Total_Modality_Initiatives=[]
-for(var i=0; i<Modality_Wise_Initiatives.length; i++){
-    ModalitiesLabel.push(Modality_Wise_Initiatives[i].Modality);
-    Total_Modality_Initiatives.push(Modality_Wise_Initiatives[i].Total_Initiatives)
+var TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Label=[]
+var TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Value=[]
+
+for(var i=0; i<TwoDecadal_DisbursementTimeSeries_Dynamic_Chart.length; i++){
+    TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Label.push(TwoDecadal_DisbursementTimeSeries_Dynamic_Chart[i].Year);
+    TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Value.push(TwoDecadal_DisbursementTimeSeries_Dynamic_Chart[i].Cumulative_Disbursement_Frequency)
 }
 
-    new Chart(document.getElementById("modality_wise_initiatives_card_horizontal-chart"), {
-    type: 'radar',
-    data: {
-      labels:ModalitiesLabel,
-      datasets: [
-        {
-          label: "Total Modality Initiatives",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: Total_Modality_Initiatives
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Total Modality Initiatives'
-      },
-      indexAxis:'y'
-    }
+
+// -- Area Chart Example
+var ctx = document.getElementById("TotalCumulativeDisbursement_with_Time_Chart_Dynamic");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Label,
+    datasets: [{
+      fill: {
+                target: 'origin',
+                above: 'rgba(79, 77, 193,0.5)',   // Area will be red above the origin
+                below: 'rgba(35, 34, 86,1)'    // And blue below the origin
+              },
+              label: "Cumulative Disbursement ($ Million)",
+      lineTension: 0.3,
+      backgroundColor: "rgba(2,117,216,0.2)",
+      borderColor: "rgba(35, 34, 86,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(35, 34, 86,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(2,117,216,1)",
+      pointHitRadius: 20,
+      pointBorderWidth: 2,
+      data: TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Value,
+    }],
+  },
+  options: {
+        plugins:{
+        title: {
+            font:{
+                size:14
+            },
+                fontStyle:'bold',
+                display: true,
+                fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                text: 'Cumulative Disbursement ($ Million) with Time',
+                padding: {
+                    top: 5,
+                    bottom: 15
+                },
+
+            },
+             legend: {
+               display: false
+                     },
+                     },
+
+
+
+  }
 });
 
-// Sector Wise Initiatives
-//sector_wise_initiatives_card_horizontal-chart
-
-// Converting Django Object Data to JSON Response Here First....
-var Sector_Wise_Initiatives = [
-    {% for i in Sector_Wise_Number_Of_Projects %}
-        {% if not forloop.first %},{% endif %}
-        {
-        "Sector" : "{{i.Sector}}",
-        "Total_Initiatives" : "{{i.total}}"
-        }
-
-    {% endfor %}
-]
-
-var SectorLabel=[]
-var Total_Sector_Initiatives=[]
-for(var i=0; i<Sector_Wise_Initiatives.length; i++){
-    SectorLabel.push(Sector_Wise_Initiatives[i].Sector);
-    Total_Sector_Initiatives.push(Sector_Wise_Initiatives[i].Total_Initiatives)
-}
-new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart"), {
-    type: 'bar',
-    data: {
-      labels: SectorLabel,
-      datasets: [
-        {
-          label: "Sector Wise Total Initiatives",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: Total_Sector_Initiatives
-        }
-      ]
-    },options:{
-    indexAxis: 'y',
-    }
-
+// Export Chart Option
+//Download Chart Image
+document.getElementById("download").addEventListener('click', function(){
+  /*Get image of canvas element*/
+  var url_base64jp = document.getElementById("TotalCumulativeDisbursement_with_Time_Chart_Dynamic").toDataURL("image/jpg");
+  /*get download button (tag: <a></a>) */
+  var a =  document.getElementById("download");
+  /*insert chart image url to download button (tag: <a></a>) */
+  a.href = url_base64jp;
 });
-
-
-
-
 </script>
 
 <script>
@@ -401,6 +407,7 @@ new Chart(document.getElementById("sector_wise_initiatives_card_horizontal-chart
 	legend.addTo(map);
 
 	//Adding Marker in Center Of Map
+
 
 
 

@@ -1,38 +1,7 @@
 {% load static %}
 {% load humanize %}
 {{ my_num|intcomma }}
-<!--<style>-->
-<!--  #regionwise_initiatives_card_bar-chart{-->
-<!--    height:20vh;-->
-<!--    width:100%;-->
-<!--    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);-->
-<!--    border: solid 0.6px #e8e8e8;-->
-<!--    background-color: #fff;-->
-<!--    border-radius: 1em;-->
-<!--  }-->
-<!--  #modality_wise_initiatives_card_horizontal-chart{-->
-<!--    height:20vh;-->
-<!--    width:100%;-->
-<!--    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);-->
-<!--    border: solid 0.6px #e8e8e8;-->
-<!--    background-color: #fff;-->
-<!--    border-radius: 1em;-->
-<!--  }-->
-<!--  #sector_wise_initiatives_card_horizontal-chart{-->
-<!--    height:20vh;-->
-<!--    width:100%;-->
-<!--    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);-->
-<!--    border: solid 0.6px #e8e8e8;-->
-<!--    background-color: #fff;-->
-<!--    border-radius: 1em;-->
-<!--  }-->
 
-<!--.flex-start{-->
-<!--    display:flex;-->
-<!--    justify-content:flex-start;-->
-<!--}-->
-
-<!--</style>-->
 <!--MORRIS CHARTS CDN-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -208,22 +177,22 @@
 
 
     </div>
-
-</div>
-<br>
+    <br>
 <div class="SubModalityWise_NumberOfSlots_Chart_Card">
     <div class="h6 mb-0 font-weight-bold text-gray-800 text-center p-2" style="font-size:0.75em;">
-        Disbursement($) in Duty Free Tarrif Scheme With Time
+        Number of Slots Across <br>Sub-Modalities
     </div>
-    <div id="SubModalityWise_NumberOfSlots_Donut_Chart">
-
-    </div>
+    <div id="SubModalityWise_NumberOfSlots_Donut_Chart"></div>
 
 </div>
+
+</div>
+
 
 <script>
 /////// THIS STATIC RESPONSIVE CHART IS FOR CUMULATIVE DISBURSEMENT ////////
-
+//----------------------------------------------------------------------//
+///// LEFT SIDE SECTION -- ALL CHARTS ARE PLOTTED USING MORRIS JS ////
 /* ------------------------------------
 ----------------CHART 1 BEGINS HERE ---------
 -------------------------------------------------*/

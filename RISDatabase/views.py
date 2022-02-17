@@ -11,6 +11,11 @@ def RISDB(request):
     # This RIS_Project_Objects Should Change With The Filters
     RIS_Project_Objects = RIS_Project.objects.all()
 
+    Total_Disbursement_with_Time_Dynamic_Chart_DF = pd.DataFrame(RIS_Project_Objects.values('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('Year'))
+
+
+
+
     # This RIS_Project_Object_Static View Should Not Change With The Filter
     RIS_Project_Objects_Static = RIS_Project.objects.all()
     #####################################################################################
@@ -43,11 +48,13 @@ def RISDB(request):
         if PartnerRegion:
             RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Region_Code__in=PartnerRegion)
 
+
     if 'SubRegion' in request.GET:
         SubRegion = request.GET.getlist('SubRegion')
         # print(SubRegion)
         if SubRegion:
             RIS_Project_Objects = RIS_Project_Objects.filter(Code_of_Sub_Region__in=SubRegion)
+
 
     if 'PartnerCountry' in request.GET:
         PartnerCountry = request.GET.getlist('PartnerCountry')
@@ -55,11 +62,13 @@ def RISDB(request):
         if PartnerCountry:
             RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Country_Code__in=PartnerCountry)
 
+
     if 'Modalities' in request.GET:
         Modalities = request.GET.getlist('Modalities')
         # print(Modalities)
         if Modalities:
             RIS_Project_Objects = RIS_Project_Objects.filter(Modalities__in=Modalities)
+
 
     if 'SubModalities' in request.GET:
         SubModalities = request.GET.getlist('SubModalities')
@@ -68,24 +77,29 @@ def RISDB(request):
             RIS_Project_Objects = RIS_Project_Objects.filter(Sub_Modalities__in=SubModalities)
 
 
+
     if 'Sector' in request.GET:
         Sector = request.GET.getlist('Sector')
         # print(Sector)
         if Sector:
             RIS_Project_Objects = RIS_Project_Objects.filter(Sector__in=Sector)
 
+
     if 'YearFrom' in request.GET:
         YearFrom = request.GET['YearFrom']
         if YearFrom:
             RIS_Project_Objects = RIS_Project_Objects.filter(Year__gte=YearFrom)
 
+
     if 'YearTo' in request.GET:
         YearTo = request.GET['YearTo']
         if YearTo > YearFrom:
             RIS_Project_Objects = RIS_Project_Objects.filter(Year__lte=YearTo)
+
         if YearTo < YearFrom:
             YearTo = int(YearFrom) + 1
             RIS_Project_Objects = RIS_Project_Objects.filter(Year__lte=YearTo)
+
 
 
     #####################################################################################
@@ -103,43 +117,38 @@ def RISDB(request):
     # Total_Disbursement_Of_SubModalities.filter('')
     # 3 Total Disbursement_of_development_assistance_USD_million
     Country_Wise_Disbursement_Total = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')
-
     Total_Disbursement_of_development_assistance = Country_Wise_Disbursement_Total.aggregate(Sum('total'))['total__sum']
 
     #4 Grant (Modality) Total Disbursement
     Total_Disbursement_Of_Modalities = RIS_Project_Objects_Static.values('Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')
 
     # Time-Series Charts (Small left side card)
-    # 5 Total Disbursement with Time (Cumulative)
-
+    # 5 Total Disbursement with Time (Cumulative) - Line Chart
     Total_Disbursement_with_Time_Static_Chart_DF = pd.DataFrame(RIS_Project_Objects_Static.values('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('Year'))
     Total_Disbursement_with_Time_Static_Chart_DF.replace(to_replace=[None], value=0, inplace=True)
-    # Total_Disbursement_with_Time_Static_Chart_DF['total'].astype(int)
     Total_Disbursement_with_Time_Static_Chart_DF['Cumulative_Disbursement_Frequency'] = Total_Disbursement_with_Time_Static_Chart_DF['total'].cumsum()
     Total_Disbursement_with_Time_Static_Chart = Total_Disbursement_with_Time_Static_Chart_DF.to_dict('records')
 
-    # 6 Sub Modality Wise No_of_Slots_Utilized
-    SubModality_Wise_Number_Of_Slots_Utilized_DF = pd.DataFrame(RIS_Project_Objects.values('Sub_Modalities').annotate(Number_Of_Slots=Sum('No_of_Slots_Utilized')))
+    # 6 Sub Modality Wise No_of_Slots_Utilized -Donut Chart
+    SubModality_Wise_Number_Of_Slots_Utilized_DF = pd.DataFrame(RIS_Project_Objects_Static.values('Sub_Modalities').annotate(Number_Of_Slots=Sum('No_of_Slots_Utilized')))
     SubModality_Wise_Number_Of_Slots_Utilized_DF.replace(to_replace=[None], value=0, inplace=True)
     SubModality_Wise_Number_Of_Slots_Utilized_Chart = SubModality_Wise_Number_Of_Slots_Utilized_DF.to_dict('records')
 
-    # Yearly_Submodalities = pivot(RIS_Project_Objects_Static, 'Year', 'Sub_Modalities', 'No_of_Slots_Utilized')
-    Yearly_Submodalities = RIS_Project_Objects.values('Year','Sub_Modalities').order_by('Year').annotate(No_of_Slots=Count('No_of_Slots_Utilized'))
 
-    # 3 Country With Most Projects
-    # Country_Wise_Disbursement = RIS_Project_Objects_Static.values('Partner_Country').order_by('Partner_Country').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')[0]
-    # Country_With_Most_Disbursement = Country_Wise_Disbursement['Partner_Country']
-
-    #####################################################################################
-    #                                  For Middle Section Charts -                         #
-    #######################################################################################
-
+    ###########################################################################################
+    #              Section For Dynamic Changing Charts With Filters                   #
     # Here I'm using RIS_Project_Objects That Gets Changed With The Filters
+    ###########################################################################################
 
-    # 1 Display Year Wise Number Of Projects
-    Year_Wise_Number_Of_Projects = RIS_Project_Objects.values('Year').order_by('Year').annotate(total=Count('id'))
+    # 1 Cumulative Disbursement With Time With Partner Region Wise - Bar Chart
+    Total_Disbursement_with_Time_Dynamic_Chart_DF = pd.DataFrame(RIS_Project_Objects.values('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('Year'))
+    Total_Disbursement_with_Time_Dynamic_Chart_DF.replace(to_replace=[None], value=0, inplace=True)
+    Total_Disbursement_with_Time_Dynamic_Chart_DF['Cumulative_Disbursement_Frequency'] = Total_Disbursement_with_Time_Dynamic_Chart_DF['total'].cumsum()
+    Total_Disbursement_with_Time_Dynamic_Chart = Total_Disbursement_with_Time_Dynamic_Chart_DF.to_dict('records')
+    print(Total_Disbursement_with_Time_Dynamic_Chart)
 
-    # 2 Display Year Wise Disbursement_of_development_assistance_USD_million
+
+    # 2 Total Disbursement With Modality - Polar Chart
     Year_Wise_Disbursement = RIS_Project_Objects.values('Year').order_by('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million'))
 
 
@@ -162,21 +171,23 @@ def RISDB(request):
         'SubModalities_Choices': SubModalities_Choices,
         'Sector_Choices': Sector_Choices,
         'Year_Choices': Year_Choices,
-        'Year_Wise_Number_Of_Projects': Year_Wise_Number_Of_Projects,
-        'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,
+
 
         #---------------------Left Side Card Stats-----------------#
         'Total_Country_Benefited_Count': Total_Country_Benefited_Count,
-         'Total_Disbursement_Of_SubModalities': Total_Disbursement_Of_SubModalities,
+        'Total_Disbursement_Of_SubModalities': Total_Disbursement_Of_SubModalities,
         'Total_Disbursement_of_development_assistance': Total_Disbursement_of_development_assistance,
         'Total_Disbursement_Of_Modalities': Total_Disbursement_Of_Modalities,
         'Total_Disbursement_with_Time_Static_Chart': Total_Disbursement_with_Time_Static_Chart,
         'SubModality_Wise_Number_Of_Slots_Utilized_Chart': SubModality_Wise_Number_Of_Slots_Utilized_Chart,
 
-        'Country_Wise_Disbursement_Total':Country_Wise_Disbursement_Total,
-        #-----------Left Side Dynamic Charts and Graphs----------------#
-        'Yearly_Submodalities': Yearly_Submodalities
+        #-----------Middle Section Dynamic Changing Charts and Graphs----------------#
+        'Total_Disbursement_with_Time_Dynamic_Chart': Total_Disbursement_with_Time_Dynamic_Chart,
 
+        # Mapping - via Leaflet Bottom Section
+        'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,
+
+        'values': request.GET
     }
     return render(request, 'RIS_DB\RIS_DB_Home.html', context)
 

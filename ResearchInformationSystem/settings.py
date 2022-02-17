@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 ///////////////// Super User Credentials //////////////////
 
-Username: Sociometrik
-Password: Sociometrik
+Username: RIS_Dashboard_Admin
+Password: RIS_Dashboard_Admin
 
 //////////////////////////////////////////////////////////
 """
