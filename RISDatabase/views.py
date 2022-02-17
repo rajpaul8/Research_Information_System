@@ -149,7 +149,7 @@ def RISDB(request):
 
 
     # 2 Total Disbursement With Modality - Polar Chart
-    Year_Wise_Disbursement = RIS_Project_Objects.values('Year').order_by('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million'))
+    Total_Disbursement_With_Modality = RIS_Project_Objects.values('Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million'))
 
 
     # 3 For Geography Mapping
@@ -183,6 +183,7 @@ def RISDB(request):
 
         #-----------Middle Section Dynamic Changing Charts and Graphs----------------#
         'Total_Disbursement_with_Time_Dynamic_Chart': Total_Disbursement_with_Time_Dynamic_Chart,
+        'Total_Disbursement_With_Modality': Total_Disbursement_With_Modality,
 
         # Mapping - via Leaflet Bottom Section
         'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,

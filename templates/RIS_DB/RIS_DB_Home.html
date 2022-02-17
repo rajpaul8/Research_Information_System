@@ -59,7 +59,14 @@
     border-radius: 1em;
   }
   .TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card{
-    height:32vh;
+    width:100%;
+    box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
+    border: solid 0.6px #e8e8e8;
+    background-color: #fff;
+    padding-bottom:0.75em;
+    border-radius: 1em;
+  }
+  .Total_Disbursement_With_Modality_polar_chart_card{
     width:100%;
     box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
     border: solid 0.6px #e8e8e8;
@@ -68,9 +75,6 @@
   }
   canvas{
   padding:0.5em;
-  width:100% !important;
-  height:auto;
-
 }
 
 .flex-start{
@@ -84,10 +88,8 @@
     padding: 0.25em;
     margin-right: 0.5em;
     position:relative;
-    bottom:98%;
+
     left:94%;
-
-
 }
 
 
@@ -116,29 +118,22 @@
                         <b>Explore through interactive charts and map</b>
                     </h5>
                 </div>
-                <div class="col-md-6 pt-2">
-                    <!-- Total  Cummulative ($M) Disbursement with Time -- Area Chart --->
+                <!-- Total  Cummulative ($M) Disbursement with Time -- Area Chart --->
+                <div class="col-md-6 pt-3">
                     <div class="TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card">
-
                         <canvas id="TotalCumulativeDisbursement_with_Time_Chart_Dynamic"></canvas>
-                        <a id="download"
-                           download="Cumulative_Disbursement_With_Time.jpg"
-                           href=""
-                           class="btn-primary-download bg-flat-color-1"
-                           title="Export chart as image">
-                            <p style="font-size:0.8em"><i class="fa-solid fa-download"> </i> </p>
-
+                        <a id="download" download="Cumulative_Disbursement_With_Time.jpg" href="" class="btn-primary-download bg-flat-color-1" title="Export chart as image">
+                            <i class="fa-solid fa-xs fa-download"> </i>
                             <!-- Download Icon -->
                             </a>
                     </div>
-
-
                 </div>
-                <div class="col-md-6">
-                    <!-- Total Disbursement by Modality    -->
-                    <div class="pt-2">
-                        <p>Total Disbursement ($ Million) by Modality</p>
-                        <canvas id="sector_wise_initiatives_card_horizontal-chart"></canvas>
+
+                <!-- Total Disbursement by Modality    -->
+                <div class="col-md-6 pt-3">
+                    <div class="Total_Disbursement_With_Modality_polar_chart_card">
+
+                        <canvas id="Total_Disbursement_With_Modality_polar_chart"></canvas>
                     </div>
                 </div>
             </div>
@@ -220,16 +215,24 @@ var myLineChart = new Chart(ctx, {
   },
   options: {
         plugins:{
-        title: {
-            font:{
-                size:14
+        subtitle: {
+                display: true,
+                text: 'Source: Research and Information System For Developing Countries ',
+                position:'bottom',
+                padding: {
+                    top: 10
+                    }
+            },
+            title: {
+                font:{
+                    size:14
             },
                 fontStyle:'bold',
                 display: true,
                 fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
                 text: 'Cumulative Disbursement ($ Million) with Time',
                 padding: {
-                    top: 5,
+                    top: 15,
                     bottom: 15
                 },
 
@@ -254,6 +257,59 @@ document.getElementById("download").addEventListener('click', function(){
   /*insert chart image url to download button (tag: <a></a>) */
   a.href = url_base64jp;
 });
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////                 CHART 1 ENDS HERE                                     /////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////                 CHART 2 STARTS HERE                                  /////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Converting Django Object Data to JSON Response Here First....
+var Total_Disbursement_With_Modality_JSON = [
+    {% for i in Total_Disbursement_With_Modality %}
+        {% if not forloop.first %},{% endif %}
+        {
+        "Modalities" : "{{i.Modalities}}",
+        "Disbursement_of_development_assistance_USD_million" : "{{i.Disbursement_of_development_assistance_USD_million}}"
+        }
+    {% endfor %}
+]
+Total_Disbursement_With_Modality_JSON.forEach(function(d) {
+    d.Disbursement_of_development_assistance_USD_million = parseInt(d.Disbursement_of_development_assistance_USD_million,10);
+});
+
+var Modalities_Label=[]
+var Disbursement_Val=[]
+
+for(var i=0; i<Total_Disbursement_With_Modality_JSON.length; i++){
+    Modalities_Label.push(Total_Disbursement_With_Modality_JSON[i].Modalities);
+    Disbursement_Val.push(Total_Disbursement_With_Modality_JSON[i].Disbursement_of_development_assistance_USD_million)
+}
+
+
+new Chart(document.getElementById("Total_Disbursement_With_Modality_polar_chart"), {
+    type: 'polarArea',
+    data: {
+      labels: Modalities_Label,
+      datasets: [
+        {
+          label: "Disbursement ($ Million)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: Disbursement_Val
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Disbursement ($ Million)'
+      }
+    }
+});
+
+
 </script>
 
 <script>
