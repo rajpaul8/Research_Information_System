@@ -11,11 +11,6 @@ def RISDB(request):
     # This RIS_Project_Objects Should Change With The Filters
     RIS_Project_Objects = RIS_Project.objects.all()
 
-    Total_Disbursement_with_Time_Dynamic_Chart_DF = pd.DataFrame(RIS_Project_Objects.values('Year').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('Year'))
-
-
-
-
     # This RIS_Project_Object_Static View Should Not Change With The Filter
     RIS_Project_Objects_Static = RIS_Project.objects.all()
     #####################################################################################
@@ -145,7 +140,6 @@ def RISDB(request):
     Total_Disbursement_with_Time_Dynamic_Chart_DF.replace(to_replace=[None], value=0, inplace=True)
     Total_Disbursement_with_Time_Dynamic_Chart_DF['Cumulative_Disbursement_Frequency'] = Total_Disbursement_with_Time_Dynamic_Chart_DF['total'].cumsum()
     Total_Disbursement_with_Time_Dynamic_Chart = Total_Disbursement_with_Time_Dynamic_Chart_DF.to_dict('records')
-    print(Total_Disbursement_with_Time_Dynamic_Chart)
 
 
     # 2 Total Disbursement With Modality - Polar Chart
