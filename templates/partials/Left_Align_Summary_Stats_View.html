@@ -65,8 +65,18 @@
     }
 
     tspan, text{
-        font-size:0.75em !important;
+        font-size:0.85em !important;
+        font-weight:500;
     }
+
+@media screen and (max-width: 1500px) {
+    .first_box_stat , .second_box_stat, .third_box_stat, .fourth_box_stat  {
+        font-size: 1.5rem !important;
+    }
+    h4{
+        font-size:1.65rem !important;
+    }
+}
 </style>
 <!-- Stats Card-->
 <div class="container">
@@ -229,8 +239,9 @@ TotalCumulativeDisbursement_with_Time.forEach(function(d) {
 
 //Getting Every 10th Year Observation
 const every_nth = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
-var TwoDecadal_DisbursementTimeSeries = every_nth(TotalCumulativeDisbursement_with_Time,10);
-console.log(TwoDecadal_DisbursementTimeSeries)
+
+var TwoDecadal_DisbursementTimeSeries = every_nth(TotalCumulativeDisbursement_with_Time,5);
+//console.log(TwoDecadal_DisbursementTimeSeries)
 
 new Morris.Line({
   // ID of the element in which to draw the chart.
@@ -258,20 +269,16 @@ new Morris.Line({
 var SubModality_Wise_Number_Of_Slots_Utilized_JSON = [
     {% for i in SubModality_Wise_Number_Of_Slots_Utilized_Chart %}
         {% if not forloop.first %},{% endif %}
+
         {
         "label": "{{i.Sub_Modalities}}",
         "value": "{{i.Number_Of_Slots}}"
         }
+
     {% endfor %}
 ]
 var hex= '#'
 var colorPalette = [
-    "#ddd777",
-    "#3838d3",
-    "#ea14d5",
-    "#907df7",
-    "#dd5714",
-    "#d85ea0",
     "#f4547a",
     "#554658",
     "#fa6f81",
@@ -299,6 +306,15 @@ var colorPalette = [
 //for(var i =0; i<SubModality_Wise_Number_Of_Slots_Utilized_JSON.length; i++){
 //    colorPalette.push(hex.concat(Math.floor(Math.random()*16777215).toString(16)));
 //}
+
+var cleanedNumberOfSlots = [];
+for(var i =0; i<SubModality_Wise_Number_Of_Slots_Utilized_JSON.length; i++){
+    if(SubModality_Wise_Number_Of_Slots_Utilized_JSON[i].value > 0 ){
+        cleanedNumberOfSlots.push(SubModality_Wise_Number_Of_Slots_Utilized_JSON[i])
+    }
+}
+console.log(cleanedNumberOfSlots,'cleanedNumberOfSlots')
+
 console.log(SubModalityWise_NumberOfSlots_Donut_Chart,'SubModalityWise_NumberOfSlots_Donut_Chart')
 
 console.log(colorPalette,'Color_Addded')
@@ -307,7 +323,7 @@ new Morris.Donut({
 
   element: 'SubModalityWise_NumberOfSlots_Donut_Chart',
 
-  data: SubModality_Wise_Number_Of_Slots_Utilized_JSON,
+  data: cleanedNumberOfSlots,
 
   colors: colorPalette
 

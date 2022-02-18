@@ -1,31 +1,43 @@
 {% load static %}
+
 <!--Filters Section Starts Here-->
 <div class="container ">
-        <h5>
-            <b>Filter your data</b>
-        </h5>
-    </div>
+    <h5>
+        <b>Filter your data</b>
+    </h5>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light Rectangle-36">
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent_FilterBar"
-                aria-controls="navbarSupportedContent_FilterBar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-<div class="collapse navbar-collapse" id="navbarSupportedContent_FilterBar">
-<div class="container filterBox">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent_FilterBar"
+            aria-controls="navbarSupportedContent_FilterBar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent_FilterBar">
+        <div class="container filterBox" id="filterBox">
 
-    <form method="GET" id="filterForm" action="{% url 'RISDB' %}" style="margin-bottom: 0; width:100%">
-        <div class="row justify_center pb-1 pt-1">
-            <div class="col-md-3 text-center pt-2">
-                <select name="YearFrom" id="YearFrom" class="form-control btn-light" style="color: #999">
-                            <option value="" > Year From</option>
+            <form method="GET" id="filterForm" action="{% url 'RISDB' %}" style="margin-bottom: 0; width:100%">
+                <div class="row justify_center pb-1 pt-1">
+                    <div class="col-md-3 text-center pt-2">
+
+                        <select name="YearFrom" id="YearFrom" class="form-control btn-light" style="color: #999">
+                            {% if values.YearFrom %}
+                                <option value="{{values.YearFrom}}" selected>{{values.YearFrom}}</option>
+                            {% else %}
+                                <option value=""> Year From</option>
+                            {% endif %}
                             {% for i in Year_Choices %}
-                            <option value="{{i.Year}}">{{i.Year}}</option>
+                                <option value="{{i.Year}}">{{i.Year}}</option>
                             {% endfor %}
-                </select>
-            </div>
-                <div class="col-md-3 text-center pt-2">
+                        </select>
+
+                    </div>
+                    <div class="col-md-3 text-center pt-2">
                         <select name="YearTo" id="YearTo" class="form-control btn-light" style="color: #999">
-                            <option value="" > Year To</option>
+                            {% if values.YearTo %}
+                                <option value="{{values.YearTo}}" selected>{{values.YearTo}}</option>
+                            {% else %}
+                                <option value=""> Year To</option>
+                            {% endif %}
+
                             {% for i in Year_Choices %}
                             <option value="{{i.Year}}">{{i.Year}}</option>
                             {% endfor %}
@@ -33,54 +45,81 @@
                     </div>
 
 
-            <div class="col-md-3 pt-2"><select class="form-control selectpicker" data-actions-box='true' multiple
-                                          data-live-search="true" name="PartnerRegion" id="PartnerRegion"
-                                          title="Partner Region"
-                                          data_load_dependent_sub_region_url="{% url 'Load_Dependent_Sub_Region_Filters' %}">
-                {% for i in Partner_Region_Choices %}
-                <option value="{{i.id}}">{{i.Partner_Region_Name}}</option>
-                {% endfor %}
-            </select></div>
-            <div class="col-md-3 pt-2"><select name="SubRegion" id="SubRegion" data-actions-box='true'
-                                          class="form-control selectpicker " multiple data-live-search="true"
-                                          title="Sub Region"
-                                          data_load_dependent_partner_country_url="{% url 'Load_Dependent_Partner_Country_Filters' %}">
-                {% for i in Sub_Region_Choices %}
-                <option value="{{i.id}}">{{i.Sub_Region_Name}}</option>
-                {% endfor %}
-            </select></div>
+                    <div class="col-md-3 pt-2"><select class="form-control selectpicker" data-actions-box='true' data-selected-text-format="count"
+                                                       multiple
+                                                       data-live-search="true" name="PartnerRegion" id="PartnerRegion"
+                                                       title="Partner Region"
+                                                       data_load_dependent_sub_region_url="{% url 'Load_Dependent_Sub_Region_Filters' %}">
 
-            </div>
-            <div class="row pb-2 pt-1">
-                 <div class="col-md-3 pt-2"><select name="PartnerCountry" id="PartnerCountry" data-actions-box='true'
-                                          class="form-control selectpicker " multiple data-live-search="true"
-                                          title="Partner Country">
-                {% for i in Partner_Country_Choices %}
-                <option value="{{i.id}}">{{i.Partner_Country_Name}}</option>
-                {% endfor %}
-            </select>
-            </div>
-            <div class="col-md-3 pt-2"><select name="Modalities" id="Modalities" data-actions-box='true'
-                                          class="form-control selectpicker " multiple data-live-search="true"
-                                          title="Modalities">
-                {% for i in Modalities_Choices %}
-                <option value="{{i.Modalities}}">{{i.Modalities}}</option>
-                {% endfor %}
-            </select></div>
+                        {% if values.PartnerRegion %}
+                                <option value="{{values.PartnerRegion}}" selected>{{values.PartnerRegion}}</option>
+                            {% else %}
+                                <option value=""></option>
+                            {% endif %}
 
-            <div class="col-md-3 pt-2"><select name="SubModalities" id="SubModalities" data-actions-box='true'
-                                          class="form-control selectpicker " multiple data-live-search="true"
-                                          title="Sub Modalities">
-                {% for i in SubModalities_Choices %}
-                <option value="{{i.Sub_Modalities}}">{{i.Sub_Modalities}}</option>
-                {% endfor %}
-            </select></div>
-            <div class="col-md-3 flex-end" >
-                <input type="submit" value="Apply" class="btn btn-submit-orange ">
-            </div>
+                        {% for i in Partner_Region_Choices %}
+
+                        <option value="{{i.PartnerRegion}}">{{i.Partner_Region_Name}}</option>
+                        {% endfor %}
+                    </select></div>
+                    <div class="col-md-3 pt-2"><select name="SubRegion" id="SubRegion" data-actions-box='true' data-selected-text-format="count"
+                                                       class="form-control selectpicker " multiple
+                                                       data-live-search="true"
+                                                       title="Sub Region"
+                                                       data_load_dependent_partner_country_url="{% url 'Load_Dependent_Partner_Country_Filters' %}">
+                            {% if values.SubRegion %}
+                                <option value="{{values.SubRegion}}" selected>{{values.SubRegion}}</option>
+                            {% else %}
+                                <option value=""></option>
+                            {% endif %}
+
+                        {% for i in Sub_Region_Choices %}
+                        <option value="{{i.Sub_Region_Name}}">{{i.Sub_Region_Name}}</option>
+                        {% endfor %}
+                    </select></div>
+
+                </div>
+                <div class="row pb-2 pt-1">
+                    <div class="col-md-3 pt-2"><select name="PartnerCountry" id="PartnerCountry" data-actions-box='true' data-selected-text-format="count"
+                                                       class="form-control selectpicker " multiple
+                                                       data-live-search="true"
+                                                       title="Partner Country">
+                            {% if values.PartnerCountry %}
+                                <option value="{{values.PartnerCountry}}" selected>{{values.PartnerCountry}}</option>
+                            {% else %}
+                                <option value=""></option>
+                            {% endif %}
+                        {% for i in Partner_Country_Choices %}
+                        <option value="{{i.Partner_Country_Name}}">{{i.Partner_Country_Name}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                    <div class="col-md-3 pt-2"><select name="Modalities" id="Modalities" data-actions-box='true' data-selected-text-format="count"
+                                                       class="form-control selectpicker " multiple
+                                                       data-live-search="true"
+                                                       title="Modalities">
+
+                        {% for i in Modalities_Choices %}
+                        <option value="{{i.Modalities}}">{{i.Modalities}}</option>
+                        {% endfor %}
+                    </select></div>
+
+                    <div class="col-md-3 pt-2"><select name="SubModalities" id="SubModalities" data-actions-box='true' data-selected-text-format="count"
+                                                       class="form-control selectpicker " multiple
+                                                       data-live-search="true"
+                                                       title="Sub Modalities">
+
+                        {% for i in SubModalities_Choices %}
+                        <option value="{{i.Sub_Modalities}}">{{i.Sub_Modalities}}</option>
+                        {% endfor %}
+                    </select></div>
+                    <div class="col-md-3 flex-end">
+                        <input type="submit" value="Apply" class="btn btn-submit-orange" onclick="form_process()">
+                    </div>
+                </div>
+            </form>
         </div>
-</form>
-</div>
-</div>
+    </div>
 </nav>
+
 <!--Filters Section Ends Here-->

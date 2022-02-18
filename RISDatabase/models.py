@@ -32,7 +32,6 @@ class RIS_Project(models.Model):
     YEAR_CHOICES = []
     for r in range(1947, (datetime.now().year + 1)):
         YEAR_CHOICES.append((r, r))
-
     Year = models.IntegerField(choices=YEAR_CHOICES, default=datetime.now().year)
     Partner_Country_Code = models.ForeignKey(Partner_Country, on_delete=models.SET_NULL, blank=True, null=True)
     # Linked to Partner Country

@@ -39,21 +39,21 @@ def RISDB(request):
         PartnerRegion = request.GET.getlist('PartnerRegion')
         # print(PartnerRegion)
         if PartnerRegion:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Region_Code__in=PartnerRegion)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Region__in=PartnerRegion)
 
 
     if 'SubRegion' in request.GET:
         SubRegion = request.GET.getlist('SubRegion')
         # print(SubRegion)
         if SubRegion:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Code_of_Sub_Region__in=SubRegion)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Sub_Region__in=SubRegion)
 
 
     if 'PartnerCountry' in request.GET:
         PartnerCountry = request.GET.getlist('PartnerCountry')
         # print(PartnerCountry)
         if PartnerCountry:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Country_Code__in=PartnerCountry)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Country__in=PartnerCountry)
 
 
     if 'Modalities' in request.GET:
@@ -95,7 +95,7 @@ def RISDB(request):
     #                                  For Left Sidebar Cards -                         #
     #######################################################################################
     # 1 Total Country Benefited
-    Total_Country_Benefited_Count = len(RIS_Project_Objects_Static.values('Partner_Country').distinct())
+    Total_Country_Benefited_Count = len(RIS_Project_Objects_Static.values('Partner_Country').distinct())-3
 
     # 2 Lines of Credit Total Disbursement
     Total_Disbursement_Of_SubModalities = RIS_Project_Objects_Static.values('Sub_Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million')).order_by('-total')
