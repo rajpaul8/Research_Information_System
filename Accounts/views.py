@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
-
+from RISDatabase.models import RIS_Project
 
 def Login(request):
     if request.method == 'POST':
@@ -63,9 +63,10 @@ def Register(request):
 
 
 def UserProfile(request):
-    # Get the user submitted dashboards only
+    # Get the user  only
+    RIS_Project_Objects = RIS_Project.objects.all()
 
-    return render(request, r'Accounts/UserProfile.html')
+    return render(request, r'Accounts/UserProfile.html', {'RIS_Project_Objects':RIS_Project_Objects})
 
 # def DashboardSubmission(request):
 #     if request.method == 'POST':

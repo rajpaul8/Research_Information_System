@@ -27,8 +27,6 @@ def RISDB(request):
     # Sub Modalities
     SubModalities_Choices = RIS_Project.objects.values('Sub_Modalities').distinct()
 
-    # Sector
-    Sector_Choices = RIS_Project.objects.values('Sector').distinct()
 
     # Year
     Year_Choices = RIS_Project.objects.values('Year').distinct()
@@ -71,13 +69,6 @@ def RISDB(request):
         if SubModalities:
             RIS_Project_Objects = RIS_Project_Objects.filter(Sub_Modalities__in=SubModalities)
 
-
-
-    if 'Sector' in request.GET:
-        Sector = request.GET.getlist('Sector')
-        # print(Sector)
-        if Sector:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Sector__in=Sector)
 
 
     if 'YearFrom' in request.GET:
@@ -124,6 +115,7 @@ def RISDB(request):
     Total_Disbursement_with_Time_Static_Chart_DF['Cumulative_Disbursement_Frequency'] = Total_Disbursement_with_Time_Static_Chart_DF['total'].cumsum()
     Total_Disbursement_with_Time_Static_Chart = Total_Disbursement_with_Time_Static_Chart_DF.to_dict('records')
 
+
     # 6 Sub Modality Wise No_of_Slots_Utilized -Donut Chart
     SubModality_Wise_Number_Of_Slots_Utilized_DF = pd.DataFrame(RIS_Project_Objects_Static.values('Sub_Modalities').annotate(Number_Of_Slots=Sum('No_of_Slots_Utilized')))
     SubModality_Wise_Number_Of_Slots_Utilized_DF.replace(to_replace=[None], value=0, inplace=True)
@@ -144,7 +136,7 @@ def RISDB(request):
 
     # 2 Total Disbursement With Modality - Polar Chart
     Total_Disbursement_With_Modality = RIS_Project_Objects.values('Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million'))
-
+    print(Total_Disbursement_With_Modality,'Total_Disbursement_With_Modality')
 
     # 3 For Geography Mapping
     # Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment
@@ -163,7 +155,7 @@ def RISDB(request):
         'Partner_Country_Choices': Partner_Country_Choices,
         'Modalities_Choices': Modalities_Choices,
         'SubModalities_Choices': SubModalities_Choices,
-        'Sector_Choices': Sector_Choices,
+
         'Year_Choices': Year_Choices,
 
 

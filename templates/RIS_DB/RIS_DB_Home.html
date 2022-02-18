@@ -12,6 +12,7 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
+<script src="{% static 'js/MapData/Country_Map_Dis_Com_Mod.js' %}"></script>
 
 <!-- Country JS-->
 <script src="{% static 'js/MapData/Country_JSON.js' %}"></script>
@@ -283,13 +284,11 @@ var Total_Disbursement_With_Modality_JSON = [
         {% if not forloop.first %},{% endif %}
         {
         "Modalities" : "{{i.Modalities}}",
-        "Disbursement_of_development_assistance_USD_million" : "{{i.Disbursement_of_development_assistance_USD_million}}"
+        "Disbursement_of_development_assistance_USD_million" : "{{i.total}}"
         }
     {% endfor %}
 ]
-Total_Disbursement_With_Modality_JSON.forEach(function(d) {
-    d.Disbursement_of_development_assistance_USD_million = parseInt(d.Disbursement_of_development_assistance_USD_million,10);
-});
+
 
 var Modalities_Label=[]
 var Disbursement_Val=[]
@@ -389,7 +388,7 @@ var Partner_Country_and_Modalities_JSON =[
 ]
 
 // Adding the desired properties of our data to geojson properies
-var ContinentMapAddedProperties = CountryMap;
+var ContinentMapAddedProperties = CustomGeoJSON;
 console.log(CountryMap, ": Before Adding Properties from our model")
 var count =0;
 for(var i =0; i<ContinentMapAddedProperties.features.length; i++){
@@ -398,7 +397,6 @@ for(var i =0; i<ContinentMapAddedProperties.features.length; i++){
             count++;
             ContinentMapAddedProperties.features[i].properties['Disbursement']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Disbursement
             ContinentMapAddedProperties.features[i].properties['Commitment']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Commitment
-            ContinentMapAddedProperties.features[i].properties['Modality'] = Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Modality
         }
       }
 }
@@ -410,9 +408,7 @@ console.log(Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Com
 // Code For Leaflet Map Starts Here ----->
 
 	var map = L.map('map').setView([20, 50], 1);
-
     	var cartodbAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attribution">CARTO</a>';
-
 	var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -432,7 +428,7 @@ console.log(Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Com
 
 	info.update = function (props) {
 		this._div.innerHTML = '' +  (props ?
-			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' +Math.round(props.Disbursement) + 'M'+'</b><br />' + 'Commitment: $' +Math.round(props.Commitment) + 'M'  : 'Hover over a region');
+			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' + (Math.round(props.Disbursement * 100) / 100).toFixed(2) + 'M'+'</b><br />' + 'Modalities <br>' + 'Capacity Building: '+ (Math.round(props.Cap_Buildi * 100) / 100).toFixed(2)  + '<br> Concessional Finance:'+ (Math.round(props.Conc_Finan * 100) / 100).toFixed(2) + '<br> Grant:'+ (Math.round(props.Grant * 100) / 100).toFixed(2) + '<br> Multilateral: '+(Math.round(props.Multilater * 100) / 100).toFixed(2)  + '<br> Technology: ' + (Math.round(props.Technology * 100) / 100).toFixed(2) + '<br> Trade:'+ (Math.round(props.Trade * 100) / 100).toFixed(2) : 'Hover over a region');
 	};
 
 	info.addTo(map);
@@ -497,7 +493,7 @@ console.log(Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Com
 	}
 
 	/* global CountryMap */
-	geojson = L.geoJson(CountryMap, {
+	geojson = L.geoJson(CustomGeoJSON, {
 		style: style,
 		onEachFeature: onEachFeature
 	}).addTo(map);
