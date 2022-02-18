@@ -23,7 +23,7 @@
 
 <style>
 #map {
-    width: auto; height: 50vh;
+    width: auto; height: 61vh;
     border-radius: 1em;
 }
 .info { padding: 6px 8px; font-size:1em; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
@@ -59,17 +59,17 @@
     border-radius: 1em;
   }
   .TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card{
-
+    height:37vh;
     width:100%;
     box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
     border: solid 0.6px #e8e8e8;
     background-color: #fff;
-    padding-bottom:1.75em;
-    padding-top:1.75em;
+
+
     border-radius: 1em;
   }
   .Total_Disbursement_With_Modality_polar_chart_card{
-
+    height:37vh;
     width:100%;
     box-shadow: 0 4px 21px 1px rgba(0, 0, 0, 0.1);
     border: solid 0.6px #e8e8e8;
@@ -77,6 +77,7 @@
     border-radius: 1em;
   }
   canvas{
+  height:90% !important;
   display:flex !important;
   align-items: center !important;
   justify-content:center !important;
@@ -95,6 +96,7 @@
     margin-right: 0.75em;
     position:relative;
     left:94%;
+
 }
 
 
@@ -124,7 +126,7 @@
                     </h5>
                 </div>
                 <!-- Total  Cummulative ($M) Disbursement with Time -- Area Chart --->
-                <div class="pt-3" style="display: flex; align-items: center; width:60%">
+                <div class="col-md-6 pt-3" style="display: flex; align-items: center;">
                     <div class="TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card">
                         <canvas id="TotalCumulativeDisbursement_with_Time_Chart_Dynamic"></canvas>
                         <a id="download" download="Cumulative_Disbursement_With_Time.jpg" href="" class="btn-primary-download bg-flat-color-1" title="Export chart as image">
@@ -133,10 +135,10 @@
                             </a>
                     </div>
                 </div>
-                <div style="width:4%"></div>
+
 
                 <!-- Total Disbursement by Modality    -->
-                <div class=" pt-3" style="display: flex; align-items: center; width:36%">
+                <div class="col-md-6 pt-3" style="display: flex; align-items: center;">
                     <div class="Total_Disbursement_With_Modality_polar_chart_card" >
                         <canvas id="Total_Disbursement_With_Modality_polar_chart"></canvas>
                         <a id="download-2" download="Cumulative_Disbursement_With_Time.jpg" href="" class="btn-primary-download bg-flat-color-1" title="Export chart as image">
@@ -147,7 +149,7 @@
                 </div>
             </div>
             <!--  Map and Chart          -->
-            <div class="row p-3 pt-5">
+            <div class="row p-3">
                 <div class="col-md-12">
                     <!-- For Map  -->
 
@@ -205,16 +207,16 @@ var myLineChart = new Chart(ctx, {
     datasets: [{
       fill: {
                 target: 'origin',
-                above: 'rgba(79, 77, 193,0.5)',   // Area will be red above the origin
-                below: 'rgba(35, 34, 86,1)'    // And blue below the origin
+                above: 'rgba(245, 135, 73,0.5)',   // Area will be red above the origin
+                below: 'rgba(245, 135, 73,1)'    // And blue below the origin
               },
               label: "Cumulative Disbursement ($ Million)",
       lineTension: 0.3,
       backgroundColor: "rgba(2,117,216,0.2)",
-      borderColor: "rgba(35, 34, 86,1)",
+      borderColor: "rgba(245, 135, 73,1)",
       pointRadius: 5,
-      pointBackgroundColor: "rgba(35, 34, 86,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointBackgroundColor: "rgba(245, 135, 73,1)",
+      pointBorderColor: "rgba(245, 135, 73,1)",
       pointHoverRadius: 5,
       pointHoverBackgroundColor: "rgba(2,117,216,1)",
       pointHitRadius: 20,
@@ -299,9 +301,9 @@ for(var i=0; i<Total_Disbursement_With_Modality_JSON.length; i++){
 
 
 new Chart(document.getElementById("Total_Disbursement_With_Modality_polar_chart"), {
-    type: 'polarArea',
+    type: 'bar',
     data: {
-      labels: ['1','2', '3', '4', '5'],
+      labels: Modalities_Label,
       datasets: [
         {
           label: "Disbursement ($ Million)",
@@ -311,12 +313,13 @@ new Chart(document.getElementById("Total_Disbursement_With_Modality_polar_chart"
       ]
     },
     options: {
-
+        indexAxis: 'y',
       title: {
         display: true,
         text: 'Disbursement ($ Million)'
       },
       plugins:{
+
         subtitle: {
                 display: true,
                 text: 'Source: Research and Information System For Developing Countries ',
@@ -340,7 +343,7 @@ new Chart(document.getElementById("Total_Disbursement_With_Modality_polar_chart"
 
             },
              legend: {
-               display: true
+               display: false
                      },
                      },
     }
@@ -359,31 +362,49 @@ document.getElementById("download-2").addEventListener('click', function(){
 </script>
 
 <script>
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////               MAP STARTS HERE                                  /////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
   var Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON = [
     {% for i in Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping %}
         {% if not forloop.first %},{% endif %}
         {
             "Partner_Country": "{{i.Partner_Country}}",
             "Disbursement": "{{i.Disbursement}}",
-            "Commitment": "{{i.Commitment}}"
+            "Commitment": "{{i.Commitment}}",
 
         }
     {% endfor %}
   ]
+// To Append Modalities in the Region Wise Map
+var Partner_Country_and_Modalities_JSON =[
+    {% for i in Partner_Country_and_Modalities %}
+        {% if not forloop.first %},{% endif %}
+        {
+            "Partner_Country": "{{i.Partner_Country}}",
+            "Modalities": "{{i.Modalities}}"
+        }
+    {% endfor %}
+]
 
-  // Adding the desired properties of our data to geojson properies
-  var ContinentMapAddedProperties = CountryMap;
-  console.log(CountryMap, ": Before Adding Properties from our model")
-    var count =0;
-  for(var i =0; i<ContinentMapAddedProperties.features.length; i++){
-        for(var j=0; j<Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON.length; j++){
-            if(ContinentMapAddedProperties.features[i].properties.name == Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Partner_Country){
-                count++;
-                ContinentMapAddedProperties.features[i].properties['Disbursement']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Disbursement
-                ContinentMapAddedProperties.features[i].properties['Commitment']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Commitment
-            }
-          }
-    }
+// Adding the desired properties of our data to geojson properies
+var ContinentMapAddedProperties = CountryMap;
+console.log(CountryMap, ": Before Adding Properties from our model")
+var count =0;
+for(var i =0; i<ContinentMapAddedProperties.features.length; i++){
+    for(var j=0; j<Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON.length; j++){
+        if(ContinentMapAddedProperties.features[i].properties.name == Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Partner_Country){
+            count++;
+            ContinentMapAddedProperties.features[i].properties['Disbursement']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Disbursement
+            ContinentMapAddedProperties.features[i].properties['Commitment']= Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Commitment
+            ContinentMapAddedProperties.features[i].properties['Modality'] = Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON[j].Modality
+        }
+      }
+}
+
+console.log(Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment_JSON, 'Modality added')
+
     console.log(count,': Matched')
     console.log(ContinentMapAddedProperties, ": After Adding Properties from our model")
 // Code For Leaflet Map Starts Here ----->
@@ -411,7 +432,7 @@ document.getElementById("download-2").addEventListener('click', function(){
 
 	info.update = function (props) {
 		this._div.innerHTML = '' +  (props ?
-			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' +Math.round(props.Disbursement) + 'M'+'</b><br />' + 'Commitment: $' +Math.round(props.Commitment) + 'M' : 'Hover over a region');
+			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' +Math.round(props.Disbursement) + 'M'+'</b><br />' + 'Commitment: $' +Math.round(props.Commitment) + 'M'  : 'Hover over a region');
 	};
 
 	info.addTo(map);

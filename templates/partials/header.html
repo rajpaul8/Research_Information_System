@@ -11,22 +11,19 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            {% if user.is_authenticated %}
-            <div class="login">
-                <a href="/Accounts/Login">
-                    <button type="button" class="btn btn-orange">
-                        Logout
-                    </button>
-                </a>
-            </div>
-            {% else %}
+
                 {% if 'UserProfile' in request.path %}
                 <div class="login">
-                    <a href="/Accounts/Logout">
-                        <button type="button" class="btn btn-orange">
+                    <form action="{% url 'Logout' %}" id="logout" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden">
+
+                        <button type="submit" class="btn btn-orange">
                             Logout
                         </button>
-                    </a>
+
+                    </form>
+
                 </div>
                 {% elif 'Login' in request.path %}
                 <div class="login">
@@ -53,7 +50,7 @@
                     </a>
                 </div>
                 {% endif %}
-            {% endif %}
+
 
 
         </div>

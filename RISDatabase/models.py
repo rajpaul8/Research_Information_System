@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class Partner_Region(models.Model):
-    Partner_Region_Name = models.CharField(max_length=100)
+    Partner_Region_Name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.Partner_Region_Name
@@ -11,8 +11,8 @@ class Partner_Region(models.Model):
 
 # Linked with Partner Region
 class Sub_Region(models.Model):
-    Partner_Region_Name = models.ForeignKey(Partner_Region, on_delete=models.CASCADE)
-    Sub_Region_Name = models.CharField(max_length=100)
+    Partner_Region_Name = models.ForeignKey(Partner_Region, on_delete=models.CASCADE, blank=True, null=True)
+    Sub_Region_Name = models.CharField(max_length=100,blank=True, null=True)
 
     def __str__(self):
         return self.Sub_Region_Name
@@ -20,9 +20,9 @@ class Sub_Region(models.Model):
 
 # Linked to Sub_Region which is linked with Partner Region
 class Partner_Country(models.Model):
-    Partner_Region_Name = models.ForeignKey(Partner_Region, on_delete=models.CASCADE)
-    Sub_Region_Name = models.ForeignKey(Sub_Region, on_delete=models.CASCADE)
-    Partner_Country_Name = models.CharField(max_length=100)
+    Partner_Region_Name = models.ForeignKey(Partner_Region, on_delete=models.CASCADE, blank=True, null=True)
+    Sub_Region_Name = models.ForeignKey(Sub_Region, on_delete=models.CASCADE, blank=True, null=True)
+    Partner_Country_Name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.Partner_Country_Name

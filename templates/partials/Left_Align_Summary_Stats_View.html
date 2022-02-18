@@ -50,7 +50,19 @@
         justify-content: center;
         color: #f58549;
     }
-
+    .alert-info{
+        color: #000;
+        background-color: #fac3a4;
+        border-color: #f58749;
+        text-align: center;
+        }
+    .alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem
+    }
 </style>
 <!-- Stats Card-->
 <div class="container">
@@ -174,17 +186,17 @@
             Cumulative Disbursement <br>($ Million) with Time
         </div>
         <div id="TotalCumulativeDisbursement_with_Time_Chart"></div>
-
-
     </div>
     <br>
-<div class="SubModalityWise_NumberOfSlots_Chart_Card">
-    <div class="h6 mb-0 font-weight-bold text-gray-800 text-center p-2" style="font-size:0.75em;">
-        Number of Slots Across <br>Sub-Modalities
+    <div class="SubModalityWise_NumberOfSlots_Chart_Card">
+        <div class="h6 mb-0 font-weight-bold text-gray-800 text-center p-2" style="font-size:0.75em;">
+            Number of Slots Across <br>Sub-Modalities
+        </div>
+        <div id="SubModalityWise_NumberOfSlots_Donut_Chart"></div>
+        <div class="alert alert-info" role="alert">
+            <span id="morrisDonutChartSpan"></span>
+        </div>
     </div>
-    <div id="SubModalityWise_NumberOfSlots_Donut_Chart"></div>
-
-</div>
 
 </div>
 
@@ -248,14 +260,68 @@ var SubModality_Wise_Number_Of_Slots_Utilized_JSON = [
         }
     {% endfor %}
 ]
+var hex= '#'
+var colorPalette = [
+    "#ddd777",
+    "#3838d3",
+    "#ea14d5",
+    "#907df7",
+    "#dd5714",
+    "#d85ea0",
+    "#f4547a",
+    "#554658",
+    "#fa6f81",
+    "#28a662",
+    "#854dae",
+    "#20e77a",
+    "#a60ab3",
+    "#24efd9",
+    "#236c3f",
+    "#edb096",
+    "#ad948c",
+    "#e70bd0",
+    "#478613",
+    "#48e591",
+    "#1e3942",
+    "#7d272",
+    "#a8ff64",
+    "#c5a2e0",
+    "#3b3b1c",
+    "#44ec21",
+    "#cfe902",
+    "#52dc4d",
+    "#7d99b5"
+]
+//for(var i =0; i<SubModality_Wise_Number_Of_Slots_Utilized_JSON.length; i++){
+//    colorPalette.push(hex.concat(Math.floor(Math.random()*16777215).toString(16)));
+//}
 
-console.log(SubModality_Wise_Number_Of_Slots_Utilized_JSON)
+console.log(colorPalette,'Color_Addded')
 
 new Morris.Donut({
 
   element: 'SubModalityWise_NumberOfSlots_Donut_Chart',
 
-  data: SubModality_Wise_Number_Of_Slots_Utilized_JSON
+  data: SubModality_Wise_Number_Of_Slots_Utilized_JSON,
+
+  colors: colorPalette
 
 });
+
+$( "#SubModalityWise_NumberOfSlots_Donut_Chart" ).mouseover(function() {
+	prepareMorrisDonutChart();
+});
+
+$( document ).ready(function() {
+	prepareMorrisDonutChart();
+});
+
+function prepareMorrisDonutChart() {
+	$("#SubModalityWise_NumberOfSlots_Donut_Chart tspan:first").css("display","none");
+	$("#SubModalityWise_NumberOfSlots_Donut_Chart tspan:nth-child(1)").css("font-size","40px");
+
+	var isi = $("#SubModalityWise_NumberOfSlots_Donut_Chart tspan:first").html();
+	$('#morrisDonutChartSpan').text(isi);
+	}
+
 </script>

@@ -14,6 +14,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 Username: RIS_Dashboard_Admin
 Password: RIS_Dashboard_Admin
 
+
+//////////// Test User //////////////////////
+username: walle
+password: Hp1bL{v2QVCeSD<
+
 //////////////////////////////////////////////////////////
 """
 

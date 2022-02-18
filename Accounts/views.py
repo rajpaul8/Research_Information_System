@@ -64,14 +64,8 @@ def Register(request):
 
 def UserProfile(request):
     # Get the user submitted dashboards only
-    Users_Dashboards = Dashboard.objects.order_by('-Submission_Date').filter(user_id=request.user.id)
-    Users_Dashboards_count = len(Users_Dashboards)
-    context = {
-        'Category_Choices': Category_Choices,
-        'Users_Dashboards': Users_Dashboards,
-        'Users_Dashboards_count': Users_Dashboards_count
-    }
-    return render(request, r'Accounts/UserProfile.html', context)
+
+    return render(request, r'Accounts/UserProfile.html')
 
 # def DashboardSubmission(request):
 #     if request.method == 'POST':

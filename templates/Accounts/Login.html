@@ -13,8 +13,8 @@
     }
 
      .LoginBox {
-       position: fixed;
-      top: 50%;
+       position: absolute;
+      top: 52%;
       left: 50%;
       background-color: #fcfcfc;
       transform: translate(-50%, -50%);
@@ -26,7 +26,7 @@
           border: solid 1px #e4e4e4;
           background-color: #fff;
           height:50vh;
-          width:25vw;
+          width:27vw;
         }
         .label_input_login{
             border-radius: 8px;
@@ -40,8 +40,9 @@
         }
 </style>
 <div class="container-fluid login_row">
-    <p class="pt-5 py-5 pb-5" style=""><b>Please provide the credentials to access the table</b> </p>
-    <div class="LoginBox">
+    <p class="pt-4 py-5 pb-5" style=""><b>Please provide the credentials to access the table</b> </p>
+    <br>
+    <div class="LoginBox pt-2">
        <div class="card-body">
               <!-- Alert -->
                 {% include 'partials\_alerts.html' %}

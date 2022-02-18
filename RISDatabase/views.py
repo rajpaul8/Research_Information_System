@@ -151,9 +151,9 @@ def RISDB(request):
 
     # Region_Wise_Number_Of_Projects_For_Mapping = RIS_Project_Objects_Static.values('Partner_Region').order_by('Partner_Region').annotate(NumberOfProjects=Count('id'))
 
-    Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping = RIS_Project_Objects_Static.values('Partner_Country').order_by('Modalities').annotate(Disbursement=Sum('Disbursement_of_development_assistance_USD_million'), Commitment=Sum('Commitment_of_development_assistance_USD_million'))
-    # print(Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping[0])
-
+    Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping = RIS_Project_Objects.values('Partner_Country').order_by('Partner_Country').annotate(Disbursement=Sum('Disbursement_of_development_assistance_USD_million'), Commitment=Sum('Commitment_of_development_assistance_USD_million'))
+    # print(Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping)
+    Partner_Country_and_Modalities = RIS_Project_Objects.values('Partner_Country','Modalities')
 
     context = {
         'RIS_Project_Objects': RIS_Project_Objects,
@@ -178,13 +178,14 @@ def RISDB(request):
         #-----------Middle Section Dynamic Changing Charts and Graphs----------------#
         'Total_Disbursement_with_Time_Dynamic_Chart': Total_Disbursement_with_Time_Dynamic_Chart,
         'Total_Disbursement_With_Modality': Total_Disbursement_With_Modality,
+        'Partner_Country_and_Modalities' : Partner_Country_and_Modalities,
 
         # Mapping - via Leaflet Bottom Section
         'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,
 
         'values': request.GET
     }
-    return render(request, 'RIS_DB\RIS_DB_Home.html', context)
+    return render(request, 'RIS_DB/RIS_DB_Home.html', context)
 
 # AJAX For Dynamically Filtering Dropdown Menu
 def Load_Dependent_Sub_Region_Filters(request):
