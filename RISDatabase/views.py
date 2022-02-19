@@ -29,7 +29,7 @@ def RISDB(request):
 
 
     # Year
-    Year_Choices = RIS_Project.objects.values('Year').distinct()
+    Year_Choices = RIS_Project.objects.values('Year').distinct().order_by('Year')
 
     #####################################################################################
     #                                  Filters Logic---                                 #
@@ -74,13 +74,13 @@ def RISDB(request):
     if 'YearFrom' in request.GET:
         YearFrom = request.GET['YearFrom']
         if YearFrom:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Year__gte=YearFrom)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Year__gte=YearFrom).order_by('Year')
 
 
     if 'YearTo' in request.GET:
         YearTo = request.GET['YearTo']
         if YearTo > YearFrom:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Year__lte=YearTo)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Year__lte=YearTo).order_by('-Year')
 
         if YearTo < YearFrom:
             YearTo = int(YearFrom) + 1
