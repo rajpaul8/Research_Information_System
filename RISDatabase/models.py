@@ -4,7 +4,6 @@ from datetime import datetime
 
 class Partner_Region(models.Model):
     Partner_Region_Name = models.CharField(max_length=100, blank=True, null=True)
-
     def __str__(self):
         return self.Partner_Region_Name
 

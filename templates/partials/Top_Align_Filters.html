@@ -51,30 +51,20 @@
                                                        title="Partner Region"
                                                        data_load_dependent_sub_region_url="{% url 'Load_Dependent_Sub_Region_Filters' %}">
 
-                        {% if values.PartnerRegion %}
-                                <option value="{{values.PartnerRegion}}" selected>{{values.PartnerRegion}}</option>
-                            {% else %}
-                                <option value=""></option>
-                            {% endif %}
 
                         {% for i in Partner_Region_Choices %}
-
-                        <option value="{{i.PartnerRegion}}">{{i.Partner_Region_Name}}</option>
+                        <option value="{{i.id}}">{{i.Partner_Region_Name}}</option>
                         {% endfor %}
-                    </select></div>
+                        </select>
+                    </div>
                     <div class="col-md-3 pt-2"><select name="SubRegion" id="SubRegion" data-actions-box='true' data-selected-text-format="count"
                                                        class="form-control selectpicker " multiple
                                                        data-live-search="true"
                                                        title="Sub Region"
                                                        data_load_dependent_partner_country_url="{% url 'Load_Dependent_Partner_Country_Filters' %}">
-                            {% if values.SubRegion %}
-                                <option value="{{values.SubRegion}}" selected>{{values.SubRegion}}</option>
-                            {% else %}
-                                <option value=""></option>
-                            {% endif %}
 
                         {% for i in Sub_Region_Choices %}
-                        <option value="{{i.Sub_Region_Name}}">{{i.Sub_Region_Name}}</option>
+                        <option value="{{i.id}}">{{i.Sub_Region_Name}}</option>
                         {% endfor %}
                     </select></div>
 
@@ -84,13 +74,9 @@
                                                        class="form-control selectpicker " multiple
                                                        data-live-search="true"
                                                        title="Partner Country">
-                            {% if values.PartnerCountry %}
-                                <option value="{{values.PartnerCountry}}" selected>{{values.PartnerCountry}}</option>
-                            {% else %}
-                                <option value=""></option>
-                            {% endif %}
+
                         {% for i in Partner_Country_Choices %}
-                        <option value="{{i.Partner_Country_Name}}">{{i.Partner_Country_Name}}</option>
+                        <option value="{{i.id}}">{{i.Partner_Country_Name}}</option>
                         {% endfor %}
                     </select>
                     </div>

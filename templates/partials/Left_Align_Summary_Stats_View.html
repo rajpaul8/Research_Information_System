@@ -240,7 +240,7 @@ TotalCumulativeDisbursement_with_Time.forEach(function(d) {
 //Getting Every 10th Year Observation
 const every_nth = (arr, nth) => arr.filter((e, i) => i % nth === nth - 1);
 
-var TwoDecadal_DisbursementTimeSeries = every_nth(TotalCumulativeDisbursement_with_Time,5);
+var TwoDecadal_DisbursementTimeSeries = every_nth(TotalCumulativeDisbursement_with_Time,1);
 //console.log(TwoDecadal_DisbursementTimeSeries)
 
 new Morris.Line({
@@ -253,6 +253,7 @@ new Morris.Line({
   xkey: 'Year',
   // A list of names of data record attributes that contain y-values.
   ykeys: ['Cumulative_Disbursement_Frequency'],
+  ymax: 120000,
   // Labels for the ykeys -- will be displayed when you hover over the
   // chart.
   labels: ['Disbursement($M)']

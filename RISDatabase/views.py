@@ -39,21 +39,21 @@ def RISDB(request):
         PartnerRegion = request.GET.getlist('PartnerRegion')
         # print(PartnerRegion)
         if PartnerRegion:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Region__in=PartnerRegion)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Region_Code__in=PartnerRegion)
 
 
     if 'SubRegion' in request.GET:
         SubRegion = request.GET.getlist('SubRegion')
         # print(SubRegion)
         if SubRegion:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Sub_Region__in=SubRegion)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Code_of_Sub_Region__in=SubRegion)
 
 
     if 'PartnerCountry' in request.GET:
         PartnerCountry = request.GET.getlist('PartnerCountry')
         # print(PartnerCountry)
         if PartnerCountry:
-            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Country__in=PartnerCountry)
+            RIS_Project_Objects = RIS_Project_Objects.filter(Partner_Country_Code__in=PartnerCountry)
 
 
     if 'Modalities' in request.GET:
@@ -94,6 +94,7 @@ def RISDB(request):
     #####################################################################################
     #                                  For Left Sidebar Cards -                         #
     #######################################################################################
+
     # 1 Total Country Benefited
     Total_Country_Benefited_Count = len(RIS_Project_Objects_Static.values('Partner_Country').distinct())-3
 
@@ -136,7 +137,7 @@ def RISDB(request):
 
     # 2 Total Disbursement With Modality - Polar Chart
     Total_Disbursement_With_Modality = RIS_Project_Objects.values('Modalities').annotate(total=Sum('Disbursement_of_development_assistance_USD_million'))
-    print(Total_Disbursement_With_Modality,'Total_Disbursement_With_Modality')
+
 
     # 3 For Geography Mapping
     # Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Commitment
@@ -145,7 +146,7 @@ def RISDB(request):
 
     Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping = RIS_Project_Objects.values('Partner_Country').order_by('Partner_Country').annotate(Disbursement=Sum('Disbursement_of_development_assistance_USD_million'), Commitment=Sum('Commitment_of_development_assistance_USD_million'))
     # print(Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping)
-    Partner_Country_and_Modalities = RIS_Project_Objects.values('Partner_Country','Modalities')
+    print(request.GET, 'Request')
 
     context = {
         'RIS_Project_Objects': RIS_Project_Objects,
@@ -170,7 +171,7 @@ def RISDB(request):
         #-----------Middle Section Dynamic Changing Charts and Graphs----------------#
         'Total_Disbursement_with_Time_Dynamic_Chart': Total_Disbursement_with_Time_Dynamic_Chart,
         'Total_Disbursement_With_Modality': Total_Disbursement_With_Modality,
-        'Partner_Country_and_Modalities' : Partner_Country_and_Modalities,
+
 
         # Mapping - via Leaflet Bottom Section
         'Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping': Region_Wise_Disbursement_of_development_assistance_USD_million_Commitment_of_development_assistance_USD_million_For_Mapping,
@@ -194,7 +195,3 @@ def Load_Dependent_Partner_Country_Filters(request):
     Sub_Region_id = request.GET.getlist('SubRegionId[]')
     partnerCountry = Partner_Country.objects.filter(Sub_Region_Name_id__in=Sub_Region_id).distinct()
     return render(request, 'partials/drill_down_filters/DrilDown_Partner_Country_Filter.html', {'Partner_Country': partnerCountry})
-
-
-
-
