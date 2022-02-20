@@ -70,7 +70,7 @@
     }
 
 @media screen and (max-width: 1500px) {
-    .first_box_stat , .second_box_stat, .third_box_stat, .fourth_box_stat, .second_box_stat-2, .fourth_box_stat-2{
+    .first_box_stat , .second_box_stat, .third_box_stat, .fourth_box_stat, .second_box_stat-2, .fourth_box_stat-2, second_box_stat-2-new{
         font-size: 1.5rem !important;
     }
     h4{
@@ -119,11 +119,7 @@
                         <div class="col-md-12 flex-start pl-3">
                             <div class="h3 font-weight-bold  text-success text-gray-800 text-center second_box_stat">
                                 <i class="fa-solid fa-users fa-2xs"> &nbsp;</i>
-                                {% for i in Total_Number_Of_Slots_across_Modalities %}
-                                    {% if i.Modalities == 'Capacity Building' %}
-                                        {{i.total|floatformat:"0"|intcomma}}
-                                    {% endif%}
-                                {% endfor %}
+                                343,315
                             </div>
                         </div>
                         <div class="col-md-12 pl-3">
@@ -135,7 +131,6 @@
                 </div>
             </div>
         </div>
-
 
 
         <!-- Total Disbursement Given In Million USD  -->
@@ -152,6 +147,27 @@
                         </div>
                         <div class="col-md-12 pl-3">
                             <div class="h6 mb-0 font-weight-bold text-gray-800 "> Development Assistance
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Projects  -->
+        <div class="col-xl-11 col-md-11 mb-4 ml-1">
+            <div class="card border-left-primary shadow h-100 py-2 second_card-body-shadows-2-new">
+                <div class="card-body pt-1 pb-1">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-12 flex-start pl-3">
+                            <div class="h3 font-weight-bold  text-success text-gray-800 text-center second_box_stat-2-new">
+                                <i class="fa-solid fa-tasks fa-2xs" aria-hidden="true"></i>
+                                7,174
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800 "> Total Projects
                             </div>
                         </div>
 
@@ -238,6 +254,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
 

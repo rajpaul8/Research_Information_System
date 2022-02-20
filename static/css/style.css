@@ -93,6 +93,16 @@ html , body{
     color: #2c9b25 !important;
 }
 
+.second_card-body-shadows-2-new{
+    box-shadow: 0 4px 24px 1px rgba(245, 133, 73, 0.04);
+    border: solid 1px rgba(245, 133, 73, 0.13);
+    background-color:#69e9f617;
+    border-radius: 0.75em;
+}
+.second_box_stat-2-new{
+    color: #003d99 !important;
+}
+
 .third_card-body-shadows{
     background: #FCF3F3;
     border: 1px solid rgba(203, 35, 35, 0.19);
