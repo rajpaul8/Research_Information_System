@@ -70,7 +70,7 @@
     }
 
 @media screen and (max-width: 1500px) {
-    .first_box_stat , .second_box_stat, .third_box_stat, .fourth_box_stat  {
+    .first_box_stat , .second_box_stat, .third_box_stat, .fourth_box_stat, .second_box_stat-2, .fourth_box_stat-2{
         font-size: 1.5rem !important;
     }
     h4{
@@ -83,7 +83,7 @@
     <div class="row ">
         <!--  Dashboard Header      -->
         <div class="pt-4 text-center header">
-            <h4><b>DevCopIndia Dashboard</b></h4>
+            <h4><b>DevCoopIndia</b></h4>
         </div>
 
         <!-- Total Country Benefited In Current Year Card -->
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 pl-3">
-                            <div class="h6 mb-0 font-weight-bold text-gray-800"> Countries Benefited
+                            <div class="h6 mb-0 font-weight-bold text-gray-800"> Development Partners
                             </div>
                         </div>
 
@@ -110,21 +110,24 @@
             </div>
         </div>
 
-        <!-- Total Disbursement Given In Million USD  -->
+
+        <!-- Total People Trained (using no. of slots and capacity building from Modalities) -->
         <div class="col-xl-11 col-md-11 mb-4 ml-1">
             <div class="card border-left-primary shadow h-100 py-2 second_card-body-shadows">
                 <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-12 flex-start pl-3">
                             <div class="h3 font-weight-bold  text-success text-gray-800 text-center second_box_stat">
-                                <i class="fa-solid fa-circle-dollar-to-slot fa-2xs"> &nbsp;</i>
-
-                                ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} M
-
+                                <i class="fa-solid fa-users fa-2xs"> &nbsp;</i>
+                                {% for i in Total_Number_Of_Slots_across_Modalities %}
+                                    {% if i.Modalities == 'Capacity Building' %}
+                                        {{i.total|floatformat:"0"|intcomma}}
+                                    {% endif%}
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col-md-12 pl-3">
-                            <div class="h6 mb-0 font-weight-bold text-gray-800 ">Total Disbursement
+                            <div class="h6 mb-0 font-weight-bold text-gray-800 "> People Trained
                             </div>
                         </div>
 
@@ -133,25 +136,49 @@
             </div>
         </div>
 
-        <!-- Total Disbursement For Line of Credit.. Card -->
+
+
+        <!-- Total Disbursement Given In Million USD  -->
+        <div class="col-xl-11 col-md-11 mb-4 ml-1">
+            <div class="card border-left-primary shadow h-100 py-2 second_card-body-shadows-2">
+                <div class="card-body pt-1 pb-1">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-12 flex-start pl-3">
+                            <div class="h3 font-weight-bold  text-success text-gray-800 text-center second_box_stat-2">
+
+                                ${{Total_Disbursement_of_development_assistance|floatformat:"0"|intcomma}} Mn
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800 "> Development Assistance
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Disbursement For Concessional Finance.. Card -->
         <div class="col-xl-11 col-md-12 mb-4 ml-1">
             <div class="card border-left-primary shadow h-100 py-2 third_card-body-shadows">
                 <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-12 flex-start pl-3">
-                            <div class="h3 font-weight-bold  text-success text-uppercase mb-1 text-gray-800 text-center third_box_stat">
+                            <div class="h3 font-weight-bold  text-success mb-1 text-gray-800 text-center third_box_stat">
                                 <i class="fa-solid fa-credit-card fa-2xs"> &nbsp;</i>
 
-                                {% for i in Total_Disbursement_Of_SubModalities %}
-                                {% if i.Sub_Modalities == 'Lines of Credit' %}
-                                ${{i.total|floatformat:"0"|intcomma}} M
+                                {% for i in Total_Disbursement_Of_Modalities %}
+                                {% if i.Modalities == 'Concessional Finance' %}
+                                ${{i.total|floatformat:"0"|intcomma}} Mn
                                 {% endif%}
                                 {% endfor %}
 
                             </div>
                         </div>
                         <div class="col-md-12 pl-3">
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Lines of Credit
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Concessional Finance
                             </div>
                         </div>
 
@@ -160,17 +187,17 @@
             </div>
         </div>
 
-        <!-- Empty Card-->
+        <!-- Total Disbursement in Grant -->
         <div class="col-xl-11 col-md-12 mb-4 ml-1">
             <div class="card border-left-success shadow h-100 py-2 fourth_card-body-shadows">
                 <div class="card-body pt-1 pb-1">
                     <div class="row no-gutters align-items-center">
                         <div class="col-md-12 flex-start pl-3">
-                            <div class="h3 font-weight-bold  text-uppercase mb-1 text-gray-800 text-center fourth_box_stat">
+                            <div class="h3 font-weight-bold mb-1 text-gray-800 text-center fourth_box_stat">
                                 <i class="fa-solid fa-credit-card fa-2xs"> &nbsp;</i>
                                 {% for i in Total_Disbursement_Of_Modalities %}
                                 {% if i.Modalities == 'Grant' %}
-                                ${{i.total|floatformat:"0"|intcomma}} M
+                                ${{i.total|floatformat:"0"|intcomma}} Mn
                                 {% endif%}
                                 {% endfor %}
                             </div>
@@ -186,7 +213,31 @@
             </div>
         </div>
 
+        <!-- Total Trade Concession -->
+        <div class="col-xl-11 col-md-12 mb-4 ml-1">
+            <div class="card border-left-success shadow h-100 py-2 fourth_card-body-shadows-2">
+                <div class="card-body pt-1 pb-1">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-12 flex-start pl-3">
+                            <div class="h3 font-weight-bold mb-1 text-gray-800 text-center fourth_box_stat-2">
+                                <i class="fa-solid fa-exchange fa-2xs"> &nbsp;</i>
+                                {% for i in Total_Disbursement_Of_Modalities %}
+                                    {% if i.Modalities == 'Trade ' %}
+                                        ${{i.total|floatformat:"0"|intcomma}} Mn
+                                    {% endif%}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-3">
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                Trade Concession
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -197,7 +248,7 @@
     <div class="TotalCumulativeDisbursement_with_Time_Chart_Card">
 
         <div class="h6 mb-0 font-weight-bold text-gray-800 text-center p-2" style="font-size:0.75em;">
-            Cumulative Disbursement <br>($ Million) with Time
+            Cumulative Disbursement <br>($ Million) over Time
         </div>
         <div id="TotalCumulativeDisbursement_with_Time_Chart"></div>
     </div>

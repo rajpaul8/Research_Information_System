@@ -25,7 +25,7 @@
 
 <style>
 #map {
-    width: auto; height: 61vh;
+    width: auto; height: 71vh;
     border-radius: 1em;
 }
 .info { padding: 6px 8px; font-size:1em; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
@@ -106,12 +106,12 @@
             </div>
             <!-- Time Series Charts and Graphs  -->
             <div class="row p-3">
-                <div class="container pt-3">
+                <div class="container pt-3 mt-2">
                     <h5>
                         <b>Explore through interactive charts and map</b>
                     </h5>
                 </div>
-                <!-- Total  Cummulative ($M) Disbursement with Time -- Area Chart --->
+                <!-- Total  Cummulative ($M) Disbursement over Time -- Area Chart --->
                 <div class="col-md-6 pt-3" style="display: flex; align-items: center;">
                     <div class="TotalCumulativeDisbursement_with_Time_Chart_Dynamic_Card">
                         <canvas id="TotalCumulativeDisbursement_with_Time_Chart_Dynamic"></canvas>
@@ -133,10 +133,12 @@
                             </a>
                     </div>
                 </div>
+
+                <div class="col-md-12"><br></div>
             </div>
             <!--  Map and Chart          -->
             <div class="row p-3">
-                <div class="col-md-12">
+                <div class="col-md-12 pt-3 ">
                     <!-- For Map  -->
 
                     <div id="map"></div>
@@ -228,7 +230,7 @@ var myLineChart = new Chart(ctx, {
                 fontStyle:'bold',
                 display: true,
                 fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-                text: 'Cumulative Disbursement ($ Million) with Time',
+                text: 'Cumulative Disbursement ($ Million) over Time',
                 padding: {
                     top: 15,
                     bottom: 15
@@ -280,8 +282,10 @@ var Modalities_Label=[]
 var Disbursement_Val=[]
 
 for(var i=0; i<Total_Disbursement_With_Modality_JSON.length; i++){
-    Modalities_Label.push(Total_Disbursement_With_Modality_JSON[i].Modalities);
-    Disbursement_Val.push(Total_Disbursement_With_Modality_JSON[i].Disbursement_of_development_assistance_USD_million)
+    if(Total_Disbursement_With_Modality_JSON[i].Disbursement_of_development_assistance_USD_million > 0){
+        Modalities_Label.push(Total_Disbursement_With_Modality_JSON[i].Modalities);
+        Disbursement_Val.push(Total_Disbursement_With_Modality_JSON[i].Disbursement_of_development_assistance_USD_million)
+    }
 }
 
 
@@ -395,8 +399,6 @@ console.log(Region_Wise_Total_Number_Of_Project_Total_Disbursement_And_Total_Com
     console.log(ContinentMapAddedProperties, ": After Adding Properties from our model")
 // Code For Leaflet Map Starts Here ----->
 
-
-
 	var Esri_DeLorme = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Copyright: &copy;2012 DeLorme',
 	minZoom: 1,
@@ -440,7 +442,7 @@ map.setZoom(2);
 
 	info.update = function (props) {
 		this._div.innerHTML = '' +  (props ?
-			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' + (Math.round(props.Disbursement * 100) / 100).toFixed(2) + 'M'+'</b><br />': 'Hover over a region');
+			'<b>' + props.name + '</b><br/>' + 'Disbursement: $' + (Math.round(props.Disbursement * 100) / 100).toFixed(2) + 'Mn'+'</b><br />': 'Hover over a region');
 	};
 // + 'Modalities <br>' + 'Capacity Building: '+ (Math.round(props.Cap_Buildi * 100) / 100).toFixed(2)  + '<br> Concessional Finance:'+ (Math.round(props.Conc_Finan * 100) / 100).toFixed(2) + '<br> Grant:'+ (Math.round(props.Grant * 100) / 100).toFixed(2) + '<br> Multilateral: '+(Math.round(props.Multilater * 100) / 100).toFixed(2)  + '<br> Technology: ' + (Math.round(props.Technology * 100) / 100).toFixed(2) + '<br> Trade:'+ (Math.round(props.Trade * 100) / 100).toFixed(2)
 	info.addTo(map);
